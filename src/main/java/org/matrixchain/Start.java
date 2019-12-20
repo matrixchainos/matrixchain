@@ -1,19 +1,19 @@
 package org.matrixchain;
 
-import org.matrixchain.facade.Application;
-import org.matrixchain.facade.ApplicationFactory;
+import org.matrixchain.facade.MatrixChain;
+import org.matrixchain.facade.MatrixChainFactory;
 
 public class Start {
 
     public static void main(String[] args) {
-        Application application = ApplicationFactory.create();
-        application.init();
-        application.startup();
+        MatrixChain matrixChain = MatrixChainFactory.create();
+        matrixChain.init();
+        matrixChain.startup();
 
-        shutdown(application);
+        shutdown(matrixChain);
     }
 
-    public static void shutdown(final Application application){
-        Runtime.getRuntime().addShutdownHook(new Thread(application::shutdown));
+    public static void shutdown(final MatrixChain matrixChain){
+        Runtime.getRuntime().addShutdownHook(new Thread(matrixChain::shutdown));
     }
 }

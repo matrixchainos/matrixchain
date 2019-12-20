@@ -25,6 +25,9 @@ public class DiscoverListening implements Server {
 
     @Override
     public void start() {
+        DiscoveryExecutor discoveryExecutor = new DiscoveryExecutor();
+        discoveryExecutor.rurn();
+
         new Thread(() -> {
             try {
                 worker = new NioEventLoopGroup();

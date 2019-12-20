@@ -7,19 +7,19 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.stereotype.Component;
 
 @Component
-public class ApplicationFactory {
+public class MatrixChainFactory {
 
     public static ApplicationContext context = null;
 
-    public static Application create() {
+    public static MatrixChain create() {
         return create((Class) null);
     }
 
-    public static Application create(Class userSpringConfig) {
+    public static MatrixChain create(Class userSpringConfig) {
         return create(SystemProperties.CONFIG, userSpringConfig);
     }
 
-    public static Application create(SystemProperties systemProperties, Class userSpringConfig) {
+    public static MatrixChain create(SystemProperties systemProperties, Class userSpringConfig) {
 
         if (systemProperties == null)
             return null;
@@ -27,9 +27,9 @@ public class ApplicationFactory {
                 create(CommonConfig.class, userSpringConfig);
     }
 
-    public static Application create(Class... springConfigs) {
+    public static MatrixChain create(Class... springConfigs) {
 
         context = new AnnotationConfigApplicationContext(springConfigs);
-        return context.getBean(Application.class);
+        return context.getBean(MatrixChain.class);
     }
 }

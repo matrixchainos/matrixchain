@@ -1,6 +1,6 @@
 package org.matrixchain.facade;
 
-public interface Application {
+public interface MatrixChain {
 
     void init();
 

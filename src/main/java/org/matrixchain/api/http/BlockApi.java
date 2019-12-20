@@ -22,7 +22,7 @@ public class BlockApi extends HttpServlet {
 
         Block block = matrixChainService.getBlock();
 
-        resp.getWriter().println(JSONObject.toJSONString(block));
+        resp.getWriter().println("block: " + JSONObject.toJSONString(block));
     }
 
     @Override

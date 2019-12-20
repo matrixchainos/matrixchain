@@ -1,124 +1,171 @@
 package org.matrixchain.core;
 
-import java.io.Serializable;
+import org.matrixchain.crypto.ECKey;
 
-public class BlockHeader implements Serializable {
+import static org.apache.commons.codec.digest.DigestUtils.sha256;
 
-    /* The SHA3 256-bit hash of the parent block, in its entirety */
-    private String hash;
-    /* The 160-bit address to which all fees collected from the
-     * successful mining of this block be transferred; formally */
-    private String coinbase;
-    /* A scalar value corresponding to the difficulty level of this block.
-     * This can be calculated from the previous block’s difficulty level
-     * and the timestamp */
-    private long difficulty;
-    /* A scalar value equal to the reasonable output of Unix's time()
-     * at this block's inception */
-    private long timestamp;
-    /* A scalar value equal to the number of ancestor blocks.
-     * The genesis block has a number of zero */
-    private long number;
-    /* A scalar value equal to the total gas used in transactions in this block */
-    private long gasUsed;
+public class BlockHeader {
 
-    /* An arbitrary byte array containing data relevant to this block.
-     * With the exception of the genesis block, this must be 32 bytes or fewer */
-    private String extraData;
-    /* A 256-bit hash which proves that a sufficient amount
-     * of computation has been carried out on this block */
-    private long nonce;
+    private String signature;
 
-    public BlockHeader() {
+    private Row row;
+
+    private BlockHeader() {
     }
 
-    public BlockHeader(String hash, String coinbase, long difficulty, long timestamp, long number,
-                       long gasUsed, String extraData, long nonce) {
-        this.hash = hash;
-        this.coinbase = coinbase;
-        this.difficulty = difficulty;
-        this.timestamp = timestamp;
-        this.number = number;
-        this.gasUsed = gasUsed;
-        this.extraData = extraData;
-        this.nonce = nonce;
+    public BlockHeader(String parentHash, String coinbase, long difficulty, long timestamp,
+                       long number, long gasUsed, String extraData, long nonce) {
+        this(parentHash, coinbase, difficulty, timestamp,
+                number, gasUsed, extraData, nonce,null);
     }
 
-    public String getHash() {
-        return hash;
+    public BlockHeader(Row row, String signature) {
+        this(row.getParentHash(), row.getCoinbase(), row.getDifficulty(), row.getTimestamp(),
+                row.getHeight(), row.getMiningRewards(), row.getExtraData(), row.getNonce(), signature);
     }
 
-    public void setHash(String hash) {
-        this.hash = hash;
+    public BlockHeader(String parentHash, String coinbase, long difficulty, long timestamp,
+                       long number, long gasUsed, String extraData, long nonce, String signature) {
+        this.row = new Row(parentHash, coinbase, difficulty, timestamp,
+                number, gasUsed, extraData, nonce);
+
+        this.signature = signature;
     }
 
-    public String getCoinbase() {
-        return coinbase;
+    public String generateSignature(ECKey ecKey) {
+        byte[] hash = sha256(this.row.toString());
+        ECKey.ECDSASignature signature = ecKey.sign(hash);
+        this.signature = signature.toHex();
+
+        return signature.toHex();
     }
 
-    public void setCoinbase(String coinbase) {
-        this.coinbase = coinbase;
+    public void setSignature(String signature) {
+        this.signature = signature;
     }
 
-    public long getDifficulty() {
-        return difficulty;
+    public String getSignature() {
+        return this.signature;
     }
 
-    public void setDifficulty(long difficulty) {
-        this.difficulty = difficulty;
+    public Row getRow() {
+        return this.row;
     }
 
-    public long getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public long getNumber() {
-        return number;
-    }
-
-    public void setNumber(long number) {
-        this.number = number;
-    }
-
-    public long getGasUsed() {
-        return gasUsed;
-    }
-
-    public void setGasUsed(long gasUsed) {
-        this.gasUsed = gasUsed;
-    }
-
-    public String getExtraData() {
-        return extraData;
-    }
-
-    public void setExtraData(String extraData) {
-        this.extraData = extraData;
-    }
-
-    public long getNonce() {
-        return nonce;
-    }
-
-    public void setNonce(long nonce) {
-        this.nonce = nonce;
+    public void setRow(Row row) {
+        this.row = row;
     }
 
     @Override
     public String toString() {
         return "BlockHeader{" +
-                "hash='" + hash + '\'' +
-                ", coinbase='" + coinbase + '\'' +
-                ", difficulty=" + difficulty +
-                ", timestamp=" + timestamp +
-                ", number=" + number +
-                ", gasUsed=" + gasUsed +
-                ", extraData='" + extraData + '\'' +
-                ", nonce=" + nonce +
+                "signature='" + signature + '\'' +
+                ", row=" + row +
                 '}';
     }
+
+    class Row {
+        private String parentHash;
+        private String coinbase;
+        private long difficulty;
+        private long timestamp;
+        private long height;
+        private long miningRewards;
+        private String extraData;
+        private long nonce;
+
+        private Row() {
+        }
+
+        public Row(String parentHash, String coinbase, long difficulty, long timestamp, long height,
+                   long miningRewards, String extraData, long nonce) {
+            this.parentHash = parentHash;
+            this.coinbase = coinbase;
+            this.difficulty = difficulty;
+            this.timestamp = timestamp;
+            this.height = height;
+            this.miningRewards = miningRewards;
+            this.extraData = extraData;
+            this.nonce = nonce;
+        }
+
+        public String getParentHash() {
+            return parentHash;
+        }
+
+        public void setParentHash(String parentHash) {
+            this.parentHash = parentHash;
+        }
+
+        public String getCoinbase() {
+            return coinbase;
+        }
+
+        public void setCoinbase(String coinbase) {
+            this.coinbase = coinbase;
+        }
+
+        public long getDifficulty() {
+            return difficulty;
+        }
+
+        public void setDifficulty(long difficulty) {
+            this.difficulty = difficulty;
+        }
+
+        public long getTimestamp() {
+            return timestamp;
+        }
+
+        public void setTimestamp(long timestamp) {
+            this.timestamp = timestamp;
+        }
+
+        public long getHeight() {
+            return height;
+        }
+
+        public void setHeight(long height) {
+            this.height = height;
+        }
+
+        public long getMiningRewards() {
+            return miningRewards;
+        }
+
+        public void setMiningRewards(long miningRewards) {
+            this.miningRewards = miningRewards;
+        }
+
+        public String getExtraData() {
+            return extraData;
+        }
+
+        public void setExtraData(String extraData) {
+            this.extraData = extraData;
+        }
+
+        public long getNonce() {
+            return nonce;
+        }
+
+        public void setNonce(long nonce) {
+            this.nonce = nonce;
+        }
+
+        @Override
+        public String toString() {
+            return "Row{" +
+                    "parentHash='" + parentHash + '\'' +
+                    ", coinbase='" + coinbase + '\'' +
+                    ", difficulty=" + difficulty +
+                    ", timestamp=" + timestamp +
+                    ", height=" + height +
+                    ", miningRewards=" + miningRewards +
+                    ", extraData='" + extraData + '\'' +
+                    ", nonce=" + nonce +
+                    '}';
+        }
+    }
+
 }

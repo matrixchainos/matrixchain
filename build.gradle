@@ -16,6 +16,7 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.springframework/spring-context
     compile group: 'org.springframework', name: 'spring-context', version: '5.2.0.RELEASE'
+    compile group: 'org.springframework', name: 'spring-tx', version: '5.2.0.RELEASE'
 
     // https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-server
     compile group: 'org.eclipse.jetty', name: 'jetty-server', version: '9.4.11.v20180605'
@@ -34,4 +35,22 @@ dependencies {
     // https://mvnrepository.com/artifact/com.github.briandilley.jsonrpc4j/jsonrpc4j
     compile group: 'com.github.briandilley.jsonrpc4j', name: 'jsonrpc4j', version: '1.5.3'
     compile "javax.portlet:portlet-api:2.0"
+
+    // https://mvnrepository.com/artifact/com.typesafe/config
+    compile group: 'com.typesafe', name: 'config', version: '1.4.0'
+
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.10.0'
+
+    // https://mvnrepository.com/artifact/org.rocksdb/rocksdbjni
+    compile group: 'org.rocksdb', name: 'rocksdbjni', version: '6.2.4'
+    // https://mvnrepository.com/artifact/com.madgag.spongycastle/core
+    compile group: 'com.madgag.spongycastle', name: 'core', version: '1.58.0.0'
+    // https://mvnrepository.com/artifact/com.madgag.spongycastle/core
+    compile group: 'com.madgag.spongycastle', name: 'prov', version: '1.58.0.0'
+
+    // https://mvnrepository.com/artifact/com.google.code.findbugs/jsr305
+    compile group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.2'
+    compile group: 'commons-codec', name: 'commons-codec', version: '1.11'
+
 }

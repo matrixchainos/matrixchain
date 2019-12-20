@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ApplicationImpl implements Application {
+public class MatrixChainImpl implements MatrixChain {
 
     private ServicesContainer container = new ServicesContainer();
 

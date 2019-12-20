@@ -1,4 +1,4 @@
-package org.matrixchain.test;
+package org.matrixchain;
 
 import com.googlecode.jsonrpc4j.JsonRpcClient;
 import com.googlecode.jsonrpc4j.ProxyUtil;
