@@ -104,7 +104,7 @@ public class Transaction {
                 '}';
     }
 
-    class Row {
+    public static class Row {
         private long value;
         private String toAddress;
         private long gasUsed;

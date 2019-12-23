@@ -18,16 +18,24 @@ public class BlockStore {
         repository = new RepositoryImpl("block");
     }
 
-    public void put(String key, Block val) {
-        repository.put(key, val);
+    public void put(Block block) {
+        repository.put(block.getHash(), block);
     }
 
-    public Block get(String key) {
-        return (Block) repository.get(key, Block.class);
+    public Block get(String hash) {
+        return (Block) repository.get(hash, Block.class);
     }
 
-    public void delete(String key) {
-        repository.delete(key);
+    public Block get(Block block) {
+        return (Block) repository.get(block.getHash(), Block.class);
+    }
+
+    public void delete(String hash) {
+        repository.delete(hash);
+    }
+
+    public void delete(Block block) {
+        repository.delete(block.getHash());
     }
 
     public boolean flush() {
@@ -70,12 +78,13 @@ public class BlockStore {
         System.out.println("--------------------------------------------------------------------------");
         BlockStore store = new BlockStore();
 
-        store.put(block.getHash(), block);
+        System.out.println(block.getHeader().getRow().getHeight());
+
+        store.put(block);
         Block block2 = store.get(block.getHash());
 
         System.out.println("value store: " + JSONObject.toJSON(block2));
         System.out.println("--------------------------------------------------------------------------");
     }
-
 
 }

@@ -21,16 +21,16 @@ public class RepositoryImpl implements Repository{
         return JSONObject.parseObject(o, type);
     }
 
-    public void put(String key, Object val) {
+    public void put(Object key, Object val) {
         dbSource.put(serialize(key), serialize(val));
     }
 
-    public Object get(String key, Type type) {
+    public Object get(Object key, Type type) {
         byte[] value = dbSource.get(serialize(key));
         return deserialize(value, type);
     }
 
-    public void delete(String key) {
+    public void delete(Object key) {
         dbSource.delete(serialize(key));
     }
 

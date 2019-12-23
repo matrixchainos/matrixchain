@@ -4,11 +4,11 @@ import java.lang.reflect.Type;
 
 public interface Repository {
 
-    void put(String key, Object val);
+    void put(Object key, Object val);
 
-    Object get(String key, Type type);
+    Object get(Object key, Type type);
 
-    void delete(String key);
+    void delete(Object key);
 
     boolean flush();
 }

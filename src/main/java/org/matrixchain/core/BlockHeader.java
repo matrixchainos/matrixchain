@@ -64,7 +64,7 @@ public class BlockHeader {
                 '}';
     }
 
-    class Row {
+    public static class Row {
         private String parentHash;
         private String coinbase;
         private long difficulty;

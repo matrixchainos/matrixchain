@@ -10,16 +10,24 @@ public class TransactionStore {
         repository = new RepositoryImpl("transaction");
     }
 
-    public void put(String key, Transaction val) {
-        repository.put(key, val);
+    public void put(Transaction transaction) {
+        repository.put(transaction.getHash(), transaction);
     }
 
-    public Transaction get(String key) {
-        return (Transaction) repository.get(key, Transaction.class);
+    public Transaction get(String hash) {
+        return (Transaction) repository.get(hash, Transaction.class);
     }
 
-    public void delete(String key) {
-        repository.delete(key);
+    public Transaction get(Transaction transaction) {
+        return (Transaction) repository.get(transaction.getHash(), Transaction.class);
+    }
+
+    public void delete(String hash) {
+        repository.delete(hash);
+    }
+
+    public void delete(Transaction transaction) {
+        repository.delete(transaction.getHash());
     }
 
     public boolean flush() {
