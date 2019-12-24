@@ -1,9 +1,8 @@
 package org.matrixchain.service;
 
-import org.matrixchain.core.Block;
-import org.matrixchain.core.BlockHeader;
-import org.matrixchain.core.Transaction;
+import org.matrixchain.core.*;
 import org.matrixchain.crypto.ECKey;
+import org.matrixchain.util.AccountUtils;
 import org.springframework.stereotype.Component;
 
 import java.math.BigInteger;
@@ -35,16 +34,14 @@ public class MatrixChainServiceImpl implements MatrixChainService {
 
     public Transaction getTransaction() {
 
-        Transaction transaction = new Transaction(
-                10000000L,
-                "TBVyYctLxkLyaFtTP7jw5dx3h9sMhmii9C",
+        Contract transfer = Transfer.create("TBVyYctLxkLyaFtTP7jw5dx3h9sMhmii9C",
                 10000L,
-                "Transfer",
-                "TJzFW1P1TMHoqptErUazE28LDcSBwXHV4S",
-                8234683746L
-        );
-        transaction.generateSignature(ecKey);
-        transaction.generateHash();
+                "I am reward to kay, for thank him help me.");
+
+        Transaction transaction = new Transaction("TBVyYctLxkLyaFtTP7jw5dx3h9sMhmii9C",transfer);
+
+        String signature = AccountUtils.generateSignature(ecKey, transaction.getHash());
+        transaction.setSignature(signature);
 
         return transaction;
     }
@@ -53,16 +50,14 @@ public class MatrixChainServiceImpl implements MatrixChainService {
         List<Transaction> transactionList = new ArrayList<>();
         ECKey ecKey = ECKey.fromPrivate(new BigInteger("a284c5935e33ec2c363913b6cf628da5c81defc2f96afb64690ae7a2f5535620", 16));
 
-        Transaction transaction = new Transaction(
-                10000000L,
-                "TBVyYctLxkLyaFtTP7jw5dx3h9sMhmii9C",
+        Contract transfer = Transfer.create("TBVyYctLxkLyaFtTP7jw5dx3h9sMhmii9C",
                 10000L,
-                "Transfer",
-                "TJzFW1P1TMHoqptErUazE28LDcSBwXHV4S",
-                8234683746L
-        );
-        transaction.generateSignature(ecKey);
-        transaction.generateHash();
+                "kay, for thank him help me.");
+
+        Transaction transaction = new Transaction("TBVyYctLxkLyaFtTP7jw5dx3h9sMhmii9C",transfer);
+
+        String signature = AccountUtils.generateSignature(ecKey, transaction.getHash());
+        transaction.setSignature(signature);
 
         transactionList.add(transaction);
         transactionList.add(getTransaction());

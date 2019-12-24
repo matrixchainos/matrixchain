@@ -26,7 +26,7 @@ public class HttpApiServer implements Server {
 
     @Override
     public void init() {
-        this.port = 8080;
+        this.port = 5050;
         System.out.println("init http api service.");
     }
 

@@ -8,6 +8,8 @@ public class BlockHeader {
 
     private String signature;
 
+    private String hash;
+
     private Row row;
 
     private BlockHeader() {
@@ -155,7 +157,7 @@ public class BlockHeader {
 
         @Override
         public String toString() {
-            return "Row{" +
+            return "Contract{" +
                     "parentHash='" + parentHash + '\'' +
                     ", coinbase='" + coinbase + '\'' +
                     ", difficulty=" + difficulty +

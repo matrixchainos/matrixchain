@@ -28,7 +28,7 @@ public class JsonRpcApiServer implements Server {
     @Override
     public void init() {
         this.maxThreads = 1;
-        this.port = 9090;
+        this.port = 5060;
         this.backlog = 1;
         this.address = "127.0.0.1";
 

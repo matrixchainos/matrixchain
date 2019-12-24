@@ -1,10 +1,10 @@
 package org.matrixchain.db;
 
 import com.alibaba.fastjson.JSONObject;
-import org.matrixchain.core.Block;
-import org.matrixchain.core.BlockHeader;
-import org.matrixchain.core.Transaction;
+import org.matrixchain.core.*;
 import org.matrixchain.crypto.ECKey;
+import org.matrixchain.util.AccountUtils;
+import org.spongycastle.util.encoders.Hex;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -45,16 +45,16 @@ public class BlockStore {
     public static void main(String[] args) {
         ECKey ecKey = ECKey.fromPrivate(new BigInteger("a284c5935e33ec2c363913b6cf628da5c81defc2f96afb64690ae7a2f5535620", 16));
 
-        Transaction transaction = new Transaction(
-                10000000L,
-                "TBVyYctLxkLyaFtTP7jw5dx3h9sMhmii9C",
-                10000L,
-                "Transfer",
-                "TJzFW1P1TMHoqptErUazE28LDcSBwXHV4S",
-                8234683746L
-        );
-        transaction.generateSignature(ecKey);
-        transaction.generateHash();
+        Transfer transfer = Transfer.create("TBVyYctLxkLyaFtTP7jw5dx3h9sMhmii9C",
+                100000000000L,
+                "dfdasdfdsd");
+
+        System.out.println(transfer.toString());
+
+        Transaction transaction = Transaction.create("TBVyYctLxkLyaFtTP7jw5dx3h9sMhmii9C",transfer);
+
+        String signature = AccountUtils.generateSignature(ecKey, transaction.getHash());
+        transaction.setSignature(signature);
 
         List<Transaction> transactionList = new ArrayList<>();
         transactionList.add(transaction);
@@ -85,6 +85,11 @@ public class BlockStore {
 
         System.out.println("value store: " + JSONObject.toJSON(block2));
         System.out.println("--------------------------------------------------------------------------");
+
+        ECKey ecKey1 = ECKey.fromPrivate(new BigInteger("8b71752f9a06a5a3249d7900c91b833acf5d51b68ed3a2ce23a0cb142b72393b", 16));
+        System.out.println(Hex.toHexString(ecKey1.getAddress()));
+        String address = Address.fromPrivate("8b71752f9a06a5a3249d7900c91b833acf5d51b68ed3a2ce23a0cb142b72393b").getValue();
+        System.out.println(address);
     }
 
 }

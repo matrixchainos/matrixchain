@@ -9,57 +9,45 @@ import static org.apache.commons.codec.digest.DigestUtils.sha256;
 
 public class Transaction {
 
-    private String hash;
+    private Contract contract;
+
+    private String ownerAddress;
 
     private String signature;
 
-    private Row row;
+    private String hash;
 
     private TransactionReceipt transactionReceipt;
 
     public Transaction() {
     }
 
-    public Transaction(Row row) {
-        this(null, null, row, null);
+    public Transaction(String ownerAddress, Contract contract) {
+        this(ownerAddress, contract, null);
     }
 
-    public Transaction(String hash, String signature, Row row) {
-        this(hash, signature, row, null);
-    }
-
-    public Transaction(String hash, String signature, Row row, TransactionReceipt transactionReceipt) {
-
-        this(hash, signature, row.getValue(), row.getToAddress(), row.gasUsed, row.getData(),
-                row.getFromAddress(), row.getNonce(),transactionReceipt);
-    }
-
-    public Transaction(String hash, String signature, long value, String receiveAddress, long gasUsed,
-                       String data, String sendAddress, long nonce, TransactionReceipt transactionReceipt) {
-        this.hash = hash;
+    public Transaction(String ownerAddress, Contract contract,
+                       String signature) {
+        this.ownerAddress = ownerAddress;
+        this.contract = contract;
+        this.hash = Hex.toHexString(sha256(this.contract.toString()));
         this.signature = signature;
-        this.row = new Row(value, receiveAddress, gasUsed, data,sendAddress, nonce);
-        this.transactionReceipt = transactionReceipt;
     }
 
-    public Transaction(long value, String receiveAddress, long gasUsed,
-                       String data, String sendAddress, long nonce) {
-        this.hash = null;
-        this.signature = null;
-        this.row = new Row(value, receiveAddress, gasUsed, data,sendAddress, nonce);
-        this.transactionReceipt = null;
+    public static Transaction create(String sendAddress, Contract contract) {
+        return new Transaction(sendAddress, contract,  null);
     }
 
-    public String generateSignature(ECKey ecKey) {
-        byte[] hash = sha256(this.row.toString());
-        ECKey.ECDSASignature signature = ecKey.sign(hash);
-        this.signature = signature.toHex();
-        return signature.toHex();
+    public static Transaction create(String sendAddress, Contract contract, String signature) {
+        return new Transaction(sendAddress, contract, signature);
     }
 
-    public String generateHash() {
-        this.hash = Hex.toHexString(Sha256Hash.hash(ByteArray.fromString(this.row.toString())));
-        return this.hash;
+    public String getOwnerAddress() {
+        return ownerAddress;
+    }
+
+    public void setOwnerAddress(String ownerAddress) {
+        this.ownerAddress = ownerAddress;
     }
 
     public String getHash() {
@@ -78,12 +66,12 @@ public class Transaction {
         this.signature = signature;
     }
 
-    public Row getRow() {
-        return row;
+    public Contract getContract() {
+        return contract;
     }
 
-    public void setRow(Row row) {
-        this.row = row;
+    public void setContract(Contract contract) {
+        this.contract = contract;
     }
 
     public TransactionReceipt getTransactionReceipt() {
@@ -97,92 +85,11 @@ public class Transaction {
     @Override
     public String toString() {
         return "Transaction{" +
-                "hash='" + hash + '\'' +
+                "contract=" + contract +
+                ", ownerAddress='" + ownerAddress + '\'' +
                 ", signature='" + signature + '\'' +
-                ", row=" + row +
+                ", hash='" + hash + '\'' +
                 ", transactionReceipt=" + transactionReceipt +
                 '}';
     }
-
-    public static class Row {
-        private long value;
-        private String toAddress;
-        private long gasUsed;
-        private String data;
-        private String fromAddress;
-        private long nonce;
-
-        public Row() {
-        }
-
-        public Row(long value, String toAddress, long gasUsed, String data, String fromAddress, long nonce) {
-            this.value = value;
-            this.toAddress = toAddress;
-            this.gasUsed = gasUsed;
-            this.data = data;
-            this.fromAddress = fromAddress;
-            this.nonce = nonce;
-        }
-
-        public long getValue() {
-            return value;
-        }
-
-        public void setValue(long value) {
-            this.value = value;
-        }
-
-        public String getToAddress() {
-            return toAddress;
-        }
-
-        public void setToAddress(String toAddress) {
-            this.toAddress = toAddress;
-        }
-
-        public long getGasUsed() {
-            return gasUsed;
-        }
-
-        public void setGasUsed(long gasUsed) {
-            this.gasUsed = gasUsed;
-        }
-
-        public String getData() {
-            return data;
-        }
-
-        public void setData(String data) {
-            this.data = data;
-        }
-
-        public String getFromAddress() {
-            return fromAddress;
-        }
-
-        public void setFromAddress(String fromAddress) {
-            this.fromAddress = fromAddress;
-        }
-
-        public long getNonce() {
-            return nonce;
-        }
-
-        public void setNonce(long nonce) {
-            this.nonce = nonce;
-        }
-
-        @Override
-        public String toString() {
-            return "Row{" +
-                    "value=" + value +
-                    ", toAddress='" + toAddress + '\'' +
-                    ", gasUsed=" + gasUsed +
-                    ", data='" + data + '\'' +
-                    ", fromAddress='" + fromAddress + '\'' +
-                    ", nonce=" + nonce +
-                    '}';
-        }
-    }
-
 }
