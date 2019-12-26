@@ -14,7 +14,7 @@ public class Transaction {
 
     private String ownerAddress;
 
-    private ECKey.ECDSASignature signature;
+    private String signature;
 
     private String hash;
 
@@ -28,7 +28,7 @@ public class Transaction {
     }
 
     public Transaction(String ownerAddress, Contract contract,
-                       ECKey.ECDSASignature signature) {
+                       String signature) {
         this.ownerAddress = ownerAddress;
         this.contract = contract;
         this.hash = "0x" + Hex.toHexString(sha256(this.contract.toString()));
@@ -39,7 +39,7 @@ public class Transaction {
         return new Transaction(sendAddress, contract, null);
     }
 
-    public static Transaction create(String sendAddress, Contract contract, ECKey.ECDSASignature signature) {
+    public static Transaction create(String sendAddress, Contract contract, String signature) {
         return new Transaction(sendAddress, contract, signature);
     }
 
@@ -59,11 +59,11 @@ public class Transaction {
         this.hash = hash;
     }
 
-    public ECKey.ECDSASignature getSignature() {
+    public String getSignature() {
         return signature;
     }
 
-    public void setSignature(ECKey.ECDSASignature signature) {
+    public void setSignature(String signature) {
         this.signature = signature;
     }
 
@@ -105,7 +105,7 @@ public class Transaction {
         byte[] hash = sha256(transaction.getContract().toString());
 
         ECKey.ECDSASignature signature = ecKey.sign(hash);
-        transaction.setSignature(signature);
+        transaction.setSignature(signature.toHex());
 
         System.out.println(JSONObject.toJSON(transaction));
         System.out.println(transaction.toString());

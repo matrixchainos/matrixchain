@@ -32,7 +32,7 @@ public class Block {
                 null);
     }
 
-    public Block(BlockHeader.Row row, ECKey.ECDSASignature signature,
+    public Block(BlockHeader.Row row, String signature,
                  List<Transaction> transactions, String hash) {
         this.header = new BlockHeader(row, signature);
 
@@ -46,7 +46,7 @@ public class Block {
     public Block(String parentHash, String coinbase,
                  long difficulty, long number,
                  long gasUsed, long timestamp,
-                 String extraData, long nonce, ECKey.ECDSASignature signature,
+                 String extraData, long nonce, String signature,
                  List<Transaction> transactions, String hash) {
         this.header = new BlockHeader(parentHash, coinbase,
                 difficulty, number, gasUsed,

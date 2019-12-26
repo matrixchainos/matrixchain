@@ -4,7 +4,7 @@ import org.matrixchain.crypto.ECKey;
 
 public class BlockHeader {
 
-    private ECKey.ECDSASignature signature;
+    private String signature;
 
     private String hash;
 
@@ -19,24 +19,24 @@ public class BlockHeader {
                 number, gasUsed, extraData, nonce,null);
     }
 
-    public BlockHeader(Row row, ECKey.ECDSASignature signature) {
+    public BlockHeader(Row row, String signature) {
         this(row.getParentHash(), row.getCoinbase(), row.getDifficulty(), row.getTimestamp(),
                 row.getHeight(), row.getMiningRewards(), row.getExtraData(), row.getNonce(), signature);
     }
 
     public BlockHeader(String parentHash, String coinbase, long difficulty, long timestamp,
-                       long number, long gasUsed, String extraData, long nonce, ECKey.ECDSASignature signature) {
+                       long number, long gasUsed, String extraData, long nonce, String signature) {
         this.row = new Row(parentHash, coinbase, difficulty, timestamp,
                 number, gasUsed, extraData, nonce);
 
         this.signature = signature;
     }
 
-    public void setSignature(ECKey.ECDSASignature signature) {
+    public void setSignature(String signature) {
         this.signature = signature;
     }
 
-    public ECKey.ECDSASignature getSignature() {
+    public String getSignature() {
         return this.signature;
     }
 

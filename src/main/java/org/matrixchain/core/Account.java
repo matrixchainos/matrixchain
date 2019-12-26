@@ -63,8 +63,8 @@ public class Account {
         blockHeader.setSignature(sign(blockHeader.getRow().toString()));
     }
 
-    private ECKey.ECDSASignature sign(String hash){
-        return this.ecKey.sign(sha256(hash));
+    private String sign(String hash){
+        return this.ecKey.sign(sha256(hash)).toHex();
     }
 
 //    public ECKey getKey() {
