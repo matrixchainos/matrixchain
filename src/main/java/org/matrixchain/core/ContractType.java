@@ -1,9 +1,11 @@
 package org.matrixchain.core;
 
 public enum ContractType {
-    TRANSFER(0);
+    TRANSFER("Transfer"),
+    TRIGGERCONTRACT("TriggerContract");
 
-    ContractType(int num) {
-        
+    private String type;
+    ContractType(String type) {
+        this.type = type;
     }
 }

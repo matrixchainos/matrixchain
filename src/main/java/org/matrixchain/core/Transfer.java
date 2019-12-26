@@ -1,5 +1,8 @@
 package org.matrixchain.core;
 
+import com.alibaba.fastjson.annotation.JSONType;
+
+@JSONType(typeName = "transfer")
 public class Transfer extends Contract {
 
     private final static long DEFAULT_GAS_PRICE = 10000L;
@@ -12,18 +15,6 @@ public class Transfer extends Contract {
     private Transfer() {
     }
 
-    private Transfer(String receiveAddress, long amount) {
-        this(receiveAddress, amount, null);
-    }
-
-    private Transfer(String receiveAddress, long amount, String data) {
-        this(receiveAddress, amount, DEFAULT_GAS_PRICE, DEFAULT_GAS_LIMIT, DEFAULT_NONCE, data);
-    }
-
-    private Transfer(String receiveAddress, long amount, long gasPrice, long gasLimit, long nonce) {
-        this(receiveAddress, amount, gasPrice, gasLimit, nonce, null);
-    }
-
     private Transfer(String receiveAddress, long amount, long gasPrice, long gasLimit, long nonce, String data) {
         super(ContractType.TRANSFER, gasPrice, gasLimit, nonce, data);
         this.amount = amount;
@@ -31,15 +22,15 @@ public class Transfer extends Contract {
     }
 
     public static Transfer create(long amount, String receiveAddress) {
-        return new Transfer(receiveAddress, amount, null);
+        return create(receiveAddress, amount, null);
     }
 
     public static Transfer create(String receiveAddress, long amount, String data) {
-        return new Transfer(receiveAddress, amount, data);
+        return create(receiveAddress, amount, DEFAULT_GAS_PRICE, DEFAULT_GAS_LIMIT, DEFAULT_NONCE, data);
     }
 
     public static Transfer create(String receiveAddress, long amount, long gasPrice, long gasLimit, long nonce) {
-        return new Transfer(receiveAddress, amount, gasPrice, gasLimit, nonce);
+        return create(receiveAddress, amount, gasPrice, gasLimit, nonce, null);
     }
 
     public static Transfer create(String receiveAddress, long amount, long gasPrice, long gasLimit, long nonce, String data) {
@@ -52,6 +43,14 @@ public class Transfer extends Contract {
 
     public long getAmount() {
         return amount;
+    }
+
+    public void setReceiveAddress(String receiveAddress) {
+        this.receiveAddress = receiveAddress;
+    }
+
+    public void setAmount(long amount) {
+        this.amount = amount;
     }
 
     @Override

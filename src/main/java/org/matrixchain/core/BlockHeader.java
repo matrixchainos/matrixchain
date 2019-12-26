@@ -2,11 +2,9 @@ package org.matrixchain.core;
 
 import org.matrixchain.crypto.ECKey;
 
-import static org.apache.commons.codec.digest.DigestUtils.sha256;
-
 public class BlockHeader {
 
-    private String signature;
+    private ECKey.ECDSASignature signature;
 
     private String hash;
 
@@ -21,32 +19,24 @@ public class BlockHeader {
                 number, gasUsed, extraData, nonce,null);
     }
 
-    public BlockHeader(Row row, String signature) {
+    public BlockHeader(Row row, ECKey.ECDSASignature signature) {
         this(row.getParentHash(), row.getCoinbase(), row.getDifficulty(), row.getTimestamp(),
                 row.getHeight(), row.getMiningRewards(), row.getExtraData(), row.getNonce(), signature);
     }
 
     public BlockHeader(String parentHash, String coinbase, long difficulty, long timestamp,
-                       long number, long gasUsed, String extraData, long nonce, String signature) {
+                       long number, long gasUsed, String extraData, long nonce, ECKey.ECDSASignature signature) {
         this.row = new Row(parentHash, coinbase, difficulty, timestamp,
                 number, gasUsed, extraData, nonce);
 
         this.signature = signature;
     }
 
-    public String generateSignature(ECKey ecKey) {
-        byte[] hash = sha256(this.row.toString());
-        ECKey.ECDSASignature signature = ecKey.sign(hash);
-        this.signature = signature.toHex();
-
-        return signature.toHex();
-    }
-
-    public void setSignature(String signature) {
+    public void setSignature(ECKey.ECDSASignature signature) {
         this.signature = signature;
     }
 
-    public String getSignature() {
+    public ECKey.ECDSASignature getSignature() {
         return this.signature;
     }
 
@@ -61,7 +51,7 @@ public class BlockHeader {
     @Override
     public String toString() {
         return "BlockHeader{" +
-                "signature='" + signature + '\'' +
+                "sign='" + signature + '\'' +
                 ", row=" + row +
                 '}';
     }

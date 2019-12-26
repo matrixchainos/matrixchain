@@ -1,12 +1,19 @@
 package org.matrixchain.core;
 
+import com.alibaba.fastjson.annotation.JSONType;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import java.util.Date;
 
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "Contract")
+@JsonSubTypes(value = {
+        @JsonSubTypes.Type(value = Transfer.class, name = "Transfer"),
+})
+@JSONType(seeAlso = {Transfer.class})
 public class Contract {
 
     protected ContractType type;
-
-
 
     protected long gasPrice;
 
@@ -35,14 +42,6 @@ public class Contract {
         return type;
     }
 
-    public long getTimestamp() {
-        return timestamp;
-    }
-
-    public String getData() {
-        return data;
-    }
-
     public long getGasPrice() {
         return gasPrice;
     }
@@ -55,4 +54,47 @@ public class Contract {
         return nonce;
     }
 
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setType(ContractType type) {
+        this.type = type;
+    }
+
+    public void setGasPrice(long gasPrice) {
+        this.gasPrice = gasPrice;
+    }
+
+    public void setGasLimit(long gasLimit) {
+        this.gasLimit = gasLimit;
+    }
+
+    public void setNonce(long nonce) {
+        this.nonce = nonce;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    @Override
+    public String toString() {
+        return "Contract{" +
+                "type=" + type +
+                ", gasPrice=" + gasPrice +
+                ", gasLimit=" + gasLimit +
+                ", nonce=" + nonce +
+                ", timestamp=" + timestamp +
+                ", data='" + data + '\'' +
+                '}';
+    }
 }

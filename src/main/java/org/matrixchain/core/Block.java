@@ -1,5 +1,6 @@
 package org.matrixchain.core;
 
+import org.matrixchain.crypto.ECKey;
 import org.matrixchain.crypto.Sha256Hash;
 import org.matrixchain.util.ByteArray;
 import org.slf4j.Logger;
@@ -31,7 +32,7 @@ public class Block {
                 null);
     }
 
-    public Block(BlockHeader.Row row, String signature,
+    public Block(BlockHeader.Row row, ECKey.ECDSASignature signature,
                  List<Transaction> transactions, String hash) {
         this.header = new BlockHeader(row, signature);
 
@@ -45,7 +46,7 @@ public class Block {
     public Block(String parentHash, String coinbase,
                  long difficulty, long number,
                  long gasUsed, long timestamp,
-                 String extraData, long nonce, String signature,
+                 String extraData, long nonce, ECKey.ECDSASignature signature,
                  List<Transaction> transactions, String hash) {
         this.header = new BlockHeader(parentHash, coinbase,
                 difficulty, number, gasUsed,

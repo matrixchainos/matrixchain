@@ -1,9 +1,10 @@
 package org.matrixchain.core;
 
+import com.alibaba.fastjson.JSONObject;
 import org.matrixchain.crypto.ECKey;
-import org.matrixchain.crypto.Sha256Hash;
-import org.matrixchain.util.ByteArray;
 import org.spongycastle.util.encoders.Hex;
+
+import java.math.BigInteger;
 
 import static org.apache.commons.codec.digest.DigestUtils.sha256;
 
@@ -13,7 +14,7 @@ public class Transaction {
 
     private String ownerAddress;
 
-    private String signature;
+    private ECKey.ECDSASignature signature;
 
     private String hash;
 
@@ -27,18 +28,18 @@ public class Transaction {
     }
 
     public Transaction(String ownerAddress, Contract contract,
-                       String signature) {
+                       ECKey.ECDSASignature signature) {
         this.ownerAddress = ownerAddress;
         this.contract = contract;
-        this.hash = Hex.toHexString(sha256(this.contract.toString()));
+        this.hash = "0x" + Hex.toHexString(sha256(this.contract.toString()));
         this.signature = signature;
     }
 
     public static Transaction create(String sendAddress, Contract contract) {
-        return new Transaction(sendAddress, contract,  null);
+        return new Transaction(sendAddress, contract, null);
     }
 
-    public static Transaction create(String sendAddress, Contract contract, String signature) {
+    public static Transaction create(String sendAddress, Contract contract, ECKey.ECDSASignature signature) {
         return new Transaction(sendAddress, contract, signature);
     }
 
@@ -58,11 +59,11 @@ public class Transaction {
         this.hash = hash;
     }
 
-    public String getSignature() {
+    public ECKey.ECDSASignature getSignature() {
         return signature;
     }
 
-    public void setSignature(String signature) {
+    public void setSignature(ECKey.ECDSASignature signature) {
         this.signature = signature;
     }
 
@@ -87,9 +88,42 @@ public class Transaction {
         return "Transaction{" +
                 "contract=" + contract +
                 ", ownerAddress='" + ownerAddress + '\'' +
-                ", signature='" + signature + '\'' +
+                ", sign='" + signature + '\'' +
                 ", hash='" + hash + '\'' +
                 ", transactionReceipt=" + transactionReceipt +
                 '}';
+    }
+
+    public static void main(String[] args) {
+        Contract transfer = Transfer.create("lll",
+                10000L,
+                "I am reward to kay, for thank him help me.");
+
+        Transaction transaction = new Transaction("dsfasdf", transfer);
+
+        ECKey ecKey = ECKey.fromPrivate(new BigInteger("a284c5935e33ec2c363913b6cf628da5c81defc2f96afb64690ae7a2f5535620", 16));
+        byte[] hash = sha256(transaction.getContract().toString());
+
+        ECKey.ECDSASignature signature = ecKey.sign(hash);
+        transaction.setSignature(signature);
+
+        System.out.println(JSONObject.toJSON(transaction));
+        System.out.println(transaction.toString());
+
+        System.out.println(Hex.toHexString(ecKey.getAddress()));
+        System.out.println(signature.v);
+
+        int v = signature.v;
+        if (v >= 31) {
+            // compressed
+            v -= 4;
+        }
+        v = (byte)(v - 27);
+        System.out.println(v);
+        byte[] address = ECKey.recoverAddressFromSignature(v, signature, hash);
+
+//        System.out.println(Hex.toHexString(key.getPrivKeyBytes()));
+        if (address != null)
+            System.out.println(Hex.toHexString(address));
     }
 }

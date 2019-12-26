@@ -1,9 +1,10 @@
 package org.matrixchain.db;
 
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import org.matrixchain.core.*;
 import org.matrixchain.crypto.ECKey;
-import org.matrixchain.util.AccountUtils;
+import org.matrixchain.core.Account;
 import org.spongycastle.util.encoders.Hex;
 
 import java.math.BigInteger;
@@ -43,18 +44,18 @@ public class BlockStore {
     }
 
     public static void main(String[] args) {
-        ECKey ecKey = ECKey.fromPrivate(new BigInteger("a284c5935e33ec2c363913b6cf628da5c81defc2f96afb64690ae7a2f5535620", 16));
+        Account account = Account.create("a284c5935e33ec2c363913b6cf628da5c81defc2f96afb64690ae7a2f5535620");
 
         Transfer transfer = Transfer.create("TBVyYctLxkLyaFtTP7jw5dx3h9sMhmii9C",
                 100000000000L,
                 "dfdasdfdsd");
 
-        System.out.println(transfer.toString());
+        Transaction transaction = Transaction.create(account.getAddress(), transfer);
 
-        Transaction transaction = Transaction.create("TBVyYctLxkLyaFtTP7jw5dx3h9sMhmii9C",transfer);
 
-        String signature = AccountUtils.generateSignature(ecKey, transaction.getHash());
-        transaction.setSignature(signature);
+        account.signTransaction(transaction);
+
+        System.out.println("--------------------------------------------------------------------------");
 
         List<Transaction> transactionList = new ArrayList<>();
         transactionList.add(transaction);
@@ -67,13 +68,17 @@ public class BlockStore {
                 1576464924176L,
                 "supportconstant",
                 12647813L);
-        header.setSignature(header.generateSignature(ecKey));
+        account.signBlockHeader(header);
 
         Block block = new Block(
                 header,
                 transactionList
         );
         block.setHash(block.generateHash());
+
+//        System.out.println("---: " + JSONObject.toJSON(block));
+//        byte[] joo = JSONObject.toJSONBytes(block, SerializerFeature.WriteClassName);
+//        System.out.println("```: " + JSONObject.parseObject(joo, Block.class));
 
         System.out.println("--------------------------------------------------------------------------");
         BlockStore store = new BlockStore();
@@ -86,10 +91,10 @@ public class BlockStore {
         System.out.println("value store: " + JSONObject.toJSON(block2));
         System.out.println("--------------------------------------------------------------------------");
 
-        ECKey ecKey1 = ECKey.fromPrivate(new BigInteger("8b71752f9a06a5a3249d7900c91b833acf5d51b68ed3a2ce23a0cb142b72393b", 16));
-        System.out.println(Hex.toHexString(ecKey1.getAddress()));
-        String address = Address.fromPrivate("8b71752f9a06a5a3249d7900c91b833acf5d51b68ed3a2ce23a0cb142b72393b").getValue();
-        System.out.println(address);
+//        ECKey ecKey1 = ECKey.fromPrivate(new BigInteger("8b71752f9a06a5a3249d7900c91b833acf5d51b68ed3a2ce23a0cb142b72393b", 16));
+//        System.out.println(Hex.toHexString(ecKey1.getAddress()));
+//        String address = account.getAddress();
+//        System.out.println(address);
     }
 
 }

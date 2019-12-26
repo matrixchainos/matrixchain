@@ -18,7 +18,7 @@
 
 package org.matrixchain.crypto;
 
-import org.matrixchain.crypto.jce.MatrixChainCastleProvider;
+import org.matrixchain.crypto.jce.SpongyCastleProvider;
 import org.matrixchain.util.ByteArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +39,7 @@ public class Hash {
   private static final String HASH_512_ALGORITHM_NAME;
 
   static {
-    Security.addProvider(MatrixChainCastleProvider.getInstance());
+    Security.addProvider(SpongyCastleProvider.getInstance());
     CRYPTO_PROVIDER = Security.getProvider("SC");
     HASH_256_ALGORITHM_NAME = "TRON-KECCAK-256";
     HASH_512_ALGORITHM_NAME = "TRON-KECCAK-512";

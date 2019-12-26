@@ -1,6 +1,7 @@
 package org.matrixchain.db;
 
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 
 import java.lang.reflect.Type;
 
@@ -14,7 +15,7 @@ public class RepositoryImpl implements Repository{
     }
 
     private byte[] serialize(Object o) {
-        return JSONObject.toJSONBytes(o);
+        return JSONObject.toJSONBytes(o, SerializerFeature.WriteClassName);
     }
 
     private Object deserialize(byte[] o, Type type) {
