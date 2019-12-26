@@ -1,5 +1,6 @@
-package org.matrixchain.util;
+package org.matrixchain;
 
+import com.alibaba.fastjson.JSONObject;
 import com.googlecode.jsonrpc4j.JsonRpcClient;
 import com.googlecode.jsonrpc4j.ProxyUtil;
 import org.matrixchain.api.RpcApi;
@@ -29,12 +30,12 @@ public class RpcClient {
 
 //        BlockHeader blockHeader = service.getBlockHeader();
 //        System.out.println("blockHeader--------------------: " + blockHeader.toString());
-        Transaction transaction = service.getTransaction();
-        System.out.println("transaction--------------------: " + transaction.toString());
+//        Transaction transaction = service.getTransaction();
+//        System.out.println("transaction--------------------: " + transaction.toString());
 //        List<Transaction> transactionList = service.getTransactionList();
 //        System.out.println("transactionList--------------------: " + transactionList.toString());
-//        Block block = service.getBlock();
-//        System.out.println("block--------------------: " + block.toString());
+        Block block = service.getBlock();
+        System.out.println("block--------------------: " + JSONObject.toJSON(block));
 //        socket.close();
     }
 }

@@ -597,10 +597,6 @@ public class ECKey implements Serializable {
             this.s = s;
         }
 
-        public ECDSASignature() {
-            this.r = null;
-            this.s = null;
-        }
         /**
          *t
          * @param r

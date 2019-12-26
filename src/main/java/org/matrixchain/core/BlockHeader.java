@@ -1,7 +1,5 @@
 package org.matrixchain.core;
 
-import org.matrixchain.crypto.ECKey;
-
 public class BlockHeader {
 
     private String signature;

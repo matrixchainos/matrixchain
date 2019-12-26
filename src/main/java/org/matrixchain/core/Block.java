@@ -1,6 +1,5 @@
 package org.matrixchain.core;
 
-import org.matrixchain.crypto.ECKey;
 import org.matrixchain.crypto.Sha256Hash;
 import org.matrixchain.util.ByteArray;
 import org.slf4j.Logger;
