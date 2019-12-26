@@ -23,7 +23,7 @@ public class MatrixChainServiceImpl implements MatrixChainService {
                 1000L,
                 10000L,
                 1576464924176L,
-                "supportconstant",
+                "support matrix",
                 12647813L);
         account.signBlockHeader(header);
         return header;
@@ -33,7 +33,7 @@ public class MatrixChainServiceImpl implements MatrixChainService {
 
         Transfer transfer = Transfer.create(Account.ZERO_ADDRESS,
                 10000L,
-                "I am reward to kay, for thank him help me.");
+                "develop reward.");
 
         Transaction transaction = new Transaction(account.getAddress(), transfer);
 
@@ -47,7 +47,7 @@ public class MatrixChainServiceImpl implements MatrixChainService {
 
         Transfer transfer = Transfer.create(Account.ZERO_ADDRESS,
                 10000L,
-                "kay, for thank him help me.");
+                "develop reward.");
 
         Transaction transaction = new Transaction(account.getAddress(), transfer);
 

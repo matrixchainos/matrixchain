@@ -19,7 +19,6 @@ public class BlockHeaderApi extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        System.out.println("-------BlockHeaderApi-------");
         BlockHeader header = matrixChainService.getBlockHeader();
 
         resp.getWriter().println(JSONObject.toJSON(header));

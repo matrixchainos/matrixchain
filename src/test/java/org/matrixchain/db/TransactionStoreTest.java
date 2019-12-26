@@ -7,11 +7,16 @@ import org.matrixchain.core.Transfer;
 
 public class TransactionStoreTest {
 
+    private final static Account account;
+
+    static {
+        account = Account.create("a284c5935e33ec2c363913b6cf628da5c81defc2f96afb64690ae7a2f5535620");
+    }
+
     @Test
     public void transaction(){
-        Account account = Account.create("a284c5935e33ec2c363913b6cf628da5c81defc2f96afb64690ae7a2f5535620");
 
-        Transfer transfer = Transfer.create("TBVyYctLxkLyaFtTP7jw5dx3h9sMhmii9C",
+        Transfer transfer = Transfer.create("0xd92230002a341bdcc1088a976d608c6e35834993",
                 100000000000L,
                 "dfdasdfdsd");
 
@@ -33,22 +38,11 @@ public class TransactionStoreTest {
     }
 
     @Test
-    public void get1() {
-    }
-
-    @Test
     public void delete() {
-    }
-
-    @Test
-    public void delete1() {
     }
 
     @Test
     public void flush() {
     }
 
-    @Test
-    public void main() {
-    }
 }

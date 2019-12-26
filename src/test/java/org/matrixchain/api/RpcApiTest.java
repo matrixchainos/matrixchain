@@ -17,10 +17,6 @@ public class RpcApiTest {
     private Socket socket;
     RpcApi rpcApi;
 
-    static {
-
-    }
-
     @Before
     public void rpcApi() {
         try {
