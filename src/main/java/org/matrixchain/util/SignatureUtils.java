@@ -37,9 +37,9 @@ public class SignatureUtils {
     }
 
     public static void sign(ECKey ecKey, BlockHeader blockHeader) {
-        if (blockHeader.getRow() == null)
+        if (blockHeader.getHash() == null)
             return ;
-        byte[] hash = sha256(blockHeader.getRow().toString());
+        byte[] hash = sha256(blockHeader.getHash());
         ECKey.ECDSASignature signature = ecKey.sign(hash);
         blockHeader.setSignature(signature.toHex());
     }

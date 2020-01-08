@@ -41,7 +41,7 @@ package org.matrixchain.crypto.cryptohash;
 public interface Digest {
 
   /**
-   * Insert one more input data byte.
+   * Insert one more input extraData byte.
    *
    * @param in the input byte
    */
@@ -50,16 +50,16 @@ public interface Digest {
   /**
    * Insert some more bytes.
    *
-   * @param inbuf the data bytes
+   * @param inbuf the extraData bytes
    */
   void update(byte[] inbuf);
 
   /**
    * Insert some more bytes.
    *
-   * @param inbuf the data buffer
-   * @param off the data offset in {@code inbuf}
-   * @param len the data length (in bytes)
+   * @param inbuf the extraData buffer
+   * @param off the extraData offset in {@code inbuf}
+   * @param len the extraData length (in bytes)
    */
   void update(byte[] inbuf, int off, int len);
 
@@ -75,7 +75,7 @@ public interface Digest {
    * Input some bytes, then finalize the current hash computation and return the hash value in a
    * newly-allocated array. The object is resetted.
    *
-   * @param inbuf the input data
+   * @param inbuf the input extraData
    * @return the hash output
    */
   byte[] digest(byte[] inbuf);

@@ -576,7 +576,7 @@ public class ECKey implements Serializable {
 
     /**
      * Groups the two components that make up a signature, and provides a way to encode to Base64 form, which is
-     * how ECDSA signatures are represented when embedded in other data structures in the Ethereum protocol. The raw
+     * how ECDSA signatures are represented when embedded in other extraData structures in the Ethereum protocol. The raw
      * components can be useful for doing further EC maths on them.
      */
     public static class ECDSASignature {
@@ -779,7 +779,7 @@ public class ECKey implements Serializable {
 
 
     /**
-     * Takes the keccak hash (32 bytes) of data and returns the ECDSA signature
+     * Takes the keccak hash (32 bytes) of extraData and returns the ECDSA signature
      *
      * @param messageHash -
      * @return -
@@ -970,10 +970,10 @@ public class ECKey implements Serializable {
     /**
      * <p>Verifies the given ECDSA signature against the message bytes using the public key bytes.</p>
      *
-     * <p>When using native ECDSA verification, data must be 32 bytes, and no element may be
+     * <p>When using native ECDSA verification, extraData must be 32 bytes, and no element may be
      * larger than 520 bytes.</p>
      *
-     * @param data Hash of the data to verify.
+     * @param data Hash of the extraData to verify.
      * @param signature signature.
      * @param pub The public key bytes to use.
      *
@@ -996,7 +996,7 @@ public class ECKey implements Serializable {
     /**
      * Verifies the given ASN.1 encoded ECDSA signature against a hash using the public key.
      *
-     * @param data Hash of the data to verify.
+     * @param data Hash of the extraData to verify.
      * @param signature signature.
      * @param pub The public key bytes to use.
      *
@@ -1009,7 +1009,7 @@ public class ECKey implements Serializable {
     /**
      * Verifies the given ASN.1 encoded ECDSA signature against a hash using the public key.
      *
-     * @param data Hash of the data to verify.
+     * @param data Hash of the extraData to verify.
      * @param signature signature.
      *
      * @return -
@@ -1075,7 +1075,7 @@ public class ECKey implements Serializable {
      *
      * @param recId Which possible key to recover.
      * @param sig the R and S components of the signature, wrapped.
-     * @param messageHash Hash of the data that was signed.
+     * @param messageHash Hash of the extraData that was signed.
      * @return 65-byte encoded public key
      */
     @Nullable
@@ -1102,7 +1102,7 @@ public class ECKey implements Serializable {
             // Cannot have point co-ordinates larger than this as everything takes place modulo Q.
             return null;
         }
-        // Compressed keys require you to know an extra bit of data about the y-coord as there are two possibilities.
+        // Compressed keys require you to know an extra bit of extraData about the y-coord as there are two possibilities.
         // So it's encoded in the recId.
         ECPoint R = decompressKey(x, (recId & 1) == 1);
         //   1.4. If nR != point at infinity, then do another iteration of Step 1 (callers responsibility).
@@ -1136,7 +1136,7 @@ public class ECKey implements Serializable {
      *
      * @param recId Which possible key to recover.
      * @param sig the R and S components of the signature, wrapped.
-     * @param messageHash Hash of the data that was signed.
+     * @param messageHash Hash of the extraData that was signed.
      * @return 20-byte address
      */
     @Nullable
@@ -1153,7 +1153,7 @@ public class ECKey implements Serializable {
      *
      * @param recId Which possible key to recover.
      * @param sig the R and S components of the signature, wrapped.
-     * @param messageHash Hash of the data that was signed.
+     * @param messageHash Hash of the extraData that was signed.
      * @return ECKey
      */
     @Nullable

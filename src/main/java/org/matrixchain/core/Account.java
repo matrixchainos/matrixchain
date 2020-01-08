@@ -1,102 +1,77 @@
 package org.matrixchain.core;
 
-import org.matrixchain.crypto.ECKey;
-import org.matrixchain.crypto.Sign;
 import org.spongycastle.util.encoders.Hex;
-
-import java.math.BigInteger;
-import java.util.Arrays;
-
-import static org.apache.commons.codec.digest.DigestUtils.sha256;
 
 public class Account {
 
-    private ECKey ecKey;
-    public static final int LENGTH = 42;
-    public static final String PREFIX = "0x";
-    public static final String ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
+    private static final int LENGTH = 42;
+    private static final String PREFIX = "0x";
+
+    private String address;
+    private long balance;
+    private final long nonce;
 
     public String getAddress() {
-        return PREFIX + Hex.toHexString(ecKey.getAddress());
+        return this.address;
     }
 
     public byte[] getAddressBytes() {
-        return ecKey.getAddress();
+        return Hex.decode(this.address);
     }
 
-    private Account(ECKey ecKey) {
-        this.ecKey = ecKey;
+    private Account(String address, long balance, long nonce) {
+        this.address = address;
+        this.balance = balance;
+        this.nonce = nonce;
     }
 
-    private Account(BigInteger privateKey) {
-        this.ecKey = ECKey.fromPrivate(privateKey);
+    public static Account create(String address, long balance, long nonce) {
+        if (!isValid(address) || balance < 0)
+            return null;
+        return new Account(address, balance, nonce);
     }
 
-    public static Account create(ECKey ecKey) {
-        return new Account(ecKey);
+    public static Account create(String address, long balance) {
+        return create(address, balance, 0);
     }
 
-    public static Account create(byte[] privateKey) {
-        return create(ECKey.fromPrivate(privateKey));
-    }
-
-    public static Account create(BigInteger privateKey) {
-        return new Account(privateKey);
-    }
-
-    public static Account create(String privateKey) {
-        return create(new BigInteger(privateKey, 16));
-    }
-
-    public void signTransaction(Transaction transaction) {
-        if (transaction.getHash() == null)
-            return;
-        transaction.setSignature(sign(transaction.getContract().toString()));
-    }
-
-    public void signBlockHeader(BlockHeader blockHeader) {
-        if (blockHeader.getRow() == null)
-            return;
-        blockHeader.setSignature(sign(blockHeader.getRow().toString()));
-    }
-
-    private String sign(String hash) {
-        return this.ecKey.sign(sha256(hash)).toHex();
-    }
-
-    public ECKey.ECDSASignature getECDSASignature(String signature, byte[] msgHash) {
-        byte[] signatureBytes = Hex.decode(signature);
-        byte v = signatureBytes[64];
-        if (v < 27) {
-            v += 27;
+    public static boolean isValid(String address) {
+        try {
+            if (address.length() != LENGTH) {
+                throw new Exception("address's length should be 42.");
+            }
+            if (!address.startsWith("0x")) {
+                throw new Exception("address's start with '0x'.");
+            }
+            try {
+                Hex.decode(address.substring(2));
+            }catch (Exception e){
+                throw new Exception("address's should be valid hex string.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return true;
+    }
 
-        Sign.SignatureData sd =
-                new Sign.SignatureData(
-                        v,
-                        (byte[]) Arrays.copyOfRange(signatureBytes, 0, 32),
-                        (byte[]) Arrays.copyOfRange(signatureBytes, 32, 64));
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
-        return new ECKey.ECDSASignature(
-                new BigInteger(1, sd.getR()), new BigInteger(1, sd.getS()));
+    public long getBalance() {
+        return balance;
+    }
+
+    public void setBalance(long balance) {
+        this.balance = balance;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Account account = (Account) o;
-
-        return this.ecKey.getPrivKey() != null ? this.ecKey.getPrivKey().equals(account.ecKey.getPrivKey()) : account.ecKey == null;
+    public String toString() {
+        return "Account{" +
+                "address='" + address + '\'' +
+                ", balance=" + balance +
+                ", nonce=" + nonce +
+                '}';
     }
-
-    @Override
-    public int hashCode() {
-        return ecKey != null ? ecKey.hashCode() : 0;
-    }
-
 }

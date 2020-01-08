@@ -1,7 +1,9 @@
 package org.matrixchain.db;
 
 import org.matrixchain.core.*;
+import org.springframework.stereotype.Component;
 
+@Component
 public class BlockStore {
 
     private Repository repository;
@@ -11,7 +13,7 @@ public class BlockStore {
     }
 
     public void put(Block block) {
-        repository.put(block.getHash(), block);
+        repository.put(block.getHeader().getHash(), block);
     }
 
     public Block get(String hash) {
@@ -19,7 +21,7 @@ public class BlockStore {
     }
 
     public Block get(Block block) {
-        return (Block) repository.get(block.getHash(), Block.class);
+        return (Block) repository.get(block.getHeader().getHash(), Block.class);
     }
 
     public void delete(String hash) {
@@ -27,7 +29,7 @@ public class BlockStore {
     }
 
     public void delete(Block block) {
-        repository.delete(block.getHash());
+        repository.delete(block.getHeader().getHash());
     }
 
     public boolean flush() {

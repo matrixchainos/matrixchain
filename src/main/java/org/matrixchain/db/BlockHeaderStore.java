@@ -1,7 +1,9 @@
 package org.matrixchain.db;
 
 import org.matrixchain.core.BlockHeader;
+import org.springframework.stereotype.Component;
 
+@Component
 public class BlockHeaderStore {
 
     private Repository repository;
@@ -11,7 +13,7 @@ public class BlockHeaderStore {
     }
 
     public void put(BlockHeader header) {
-        repository.put(header.getRow().getHeight(), header);
+        repository.put(header.getHeight(), header);
     }
 
     public BlockHeader get(long height) {
@@ -19,7 +21,7 @@ public class BlockHeaderStore {
     }
 
     public BlockHeader get(BlockHeader header) {
-        return (BlockHeader) repository.get(header.getRow().getHeight(), BlockHeader.class);
+        return (BlockHeader) repository.get(header.getHeight(), BlockHeader.class);
     }
 
     public void delete(long height) {
@@ -27,7 +29,7 @@ public class BlockHeaderStore {
     }
 
     public void delete(BlockHeader header) {
-        repository.delete(header.getRow().getHeight());
+        repository.delete(header.getHeight());
     }
 
     public boolean flush() {

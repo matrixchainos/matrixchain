@@ -1,6 +1,5 @@
 package org.matrixchain.core;
 
-import com.alibaba.fastjson.annotation.JSONType;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -9,8 +8,9 @@ import java.util.Date;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "Contract")
 @JsonSubTypes(value = {
         @JsonSubTypes.Type(value = Transfer.class, name = "Transfer"),
+        @JsonSubTypes.Type(value = CreateSmartContract.class, name = "CreateSmartContract"),
+        @JsonSubTypes.Type(value = TriggerSmartContract.class, name = "TriggerSmartContract"),
 })
-@JSONType(seeAlso = {Transfer.class})
 public class Contract {
 
     protected ContractType type;
@@ -23,19 +23,19 @@ public class Contract {
 
     protected long timestamp;
 
-    protected String data;
+    protected String extraData;
 
     protected Contract() {
 
     }
 
-    protected Contract(ContractType type, long gasPrice, long gasLimit, long nonce, String data) {
+    protected Contract(ContractType type, long gasPrice, long gasLimit, long nonce, String extraData) {
         this.type = type;
         this.gasPrice = gasPrice;
         this.gasLimit = gasLimit;
         this.nonce = nonce;
         this.timestamp = new Date().getTime();
-        this.data = data;
+        this.extraData = extraData;
     }
 
     public ContractType getType() {
@@ -58,8 +58,8 @@ public class Contract {
         return timestamp;
     }
 
-    public String getData() {
-        return data;
+    public String getExtraData() {
+        return extraData;
     }
 
     public void setType(ContractType type) {
@@ -82,8 +82,8 @@ public class Contract {
         this.timestamp = timestamp;
     }
 
-    public void setData(String data) {
-        this.data = data;
+    public void setExtraData(String extraData) {
+        this.extraData = extraData;
     }
 
     @Override
@@ -94,7 +94,7 @@ public class Contract {
                 ", gasLimit=" + gasLimit +
                 ", nonce=" + nonce +
                 ", timestamp=" + timestamp +
-                ", data='" + data + '\'' +
+                ", extraData='" + extraData + '\'' +
                 '}';
     }
 }

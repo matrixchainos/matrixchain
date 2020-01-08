@@ -16,13 +16,17 @@ public class HttpApiServer implements Server {
     @Autowired
     private ChainParamsApi chainParamsApi;
     @Autowired
-    private BlockHeaderApi blockHeaderApi;
+    private BlockHeaderByHeightApi blockHeaderByHeightApi;
     @Autowired
     private TransactionApi transactionApi;
     @Autowired
-    private TransactionListApi transactionListApi;
+    private TransactionsByBlockHeightApi transactionsByBlockHeightApi;
     @Autowired
-    private BlockApi blockApi;
+    private TransactionsByBlockHashApi transactionsByBlockHashApi;
+    @Autowired
+    private BlockByHashApi blockByHashApi;
+    @Autowired
+    private BlockByHeightApi blockByHeightApi;
 
     @Override
     public void init() {
@@ -35,13 +39,15 @@ public class HttpApiServer implements Server {
         try {
             this.server = new org.eclipse.jetty.server.Server(this.port);
             ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-            context.setContextPath("/api");
+            context.setContextPath("/api/v1");
             this.server.setHandler(context);
             context.addServlet(new ServletHolder(chainParamsApi), "/chain_params");
+            context.addServlet(new ServletHolder(blockHeaderByHeightApi), "/blockheader_by_height");
             context.addServlet(new ServletHolder(transactionApi), "/transaction");
-            context.addServlet(new ServletHolder(blockHeaderApi), "/block_header");
-            context.addServlet(new ServletHolder(blockApi), "/block");
-            context.addServlet(new ServletHolder(transactionListApi), "/transaction_list");
+            context.addServlet(new ServletHolder(blockByHashApi), "/block_by_hash");
+            context.addServlet(new ServletHolder(blockByHeightApi), "/block_by_height");
+            context.addServlet(new ServletHolder(transactionsByBlockHashApi), "/transactions_by_block_hash");
+            context.addServlet(new ServletHolder(transactionsByBlockHeightApi), "/transactions_by_block_height");
 
             this.server.start();
 //                this.server.join(); // thread stop

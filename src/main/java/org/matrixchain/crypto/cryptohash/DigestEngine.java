@@ -46,16 +46,16 @@ public abstract class DigestEngine extends MessageDigest implements Digest {
   protected abstract void engineReset();
 
   /**
-   * Process one block of data.
+   * Process one block of extraData.
    *
-   * @param data the data block
+   * @param data the extraData block
    */
   protected abstract void processBlock(byte[] data);
 
   /**
    * Perform the final padding and store the result in the provided buffer. This method shall call
-   * {@link #flush} and then {@link #update} with the appropriate padding data in order to getData
-   * the full input data.
+   * {@link #flush} and then {@link #update} with the appropriate padding extraData in order to getExtraData
+   * the full input extraData.
    *
    * @param buf the output buffer
    * @param off the output offset
@@ -65,7 +65,7 @@ public abstract class DigestEngine extends MessageDigest implements Digest {
   /**
    * This function is called at object creation time; the implementation should use it to perform
    * initialization tasks. After this method is called, the implementation should be ready to
-   * process data or meaningfully honour calls such as {@link #engineGetDigestLength}
+   * process extraData or meaningfully honour calls such as {@link #engineGetDigestLength}
    */
   protected abstract void doInit();
 
@@ -175,7 +175,7 @@ public abstract class DigestEngine extends MessageDigest implements Digest {
   }
 
   /**
-   * Flush internal buffers, so that less than a block of data may at most be upheld.
+   * Flush internal buffers, so that less than a block of extraData may at most be upheld.
    *
    * @return the number of bytes still unprocessed after the flush
    */
@@ -187,7 +187,7 @@ public abstract class DigestEngine extends MessageDigest implements Digest {
    * Get a reference to an internal buffer with the same size than a block. The contents of that
    * buffer are defined only immediately after a call to {@link #flush()}: if {@link #flush()}
    * return the value {@code n}, then the first {@code n} bytes of the array returned by this method
-   * are the {@code n} bytes of input data which are still unprocessed. The values of the remaining
+   * are the {@code n} bytes of input extraData which are still unprocessed. The values of the remaining
    * bytes are undefined and may be altered at will.
    *
    * @return a block-sized internal buffer

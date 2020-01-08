@@ -9,6 +9,6 @@ public class KademliaOptions {
 
     public static final long REQ_TIMEOUT = 300;
     public static final long BUCKET_REFRESH = 7200;     //bucket refreshing interval in millis
-    public static final long DISCOVER_CYCLE = 30;
+    public static final long DISCOVER_CYCLE = 15;
 
 }

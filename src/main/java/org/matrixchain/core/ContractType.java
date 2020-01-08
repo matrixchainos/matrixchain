@@ -1,10 +1,12 @@
 package org.matrixchain.core;
 
 public enum ContractType {
-    TRANSFER("Transfer"),
-    TRIGGERCONTRACT("TriggerContract");
+    Transfer("Transfer"),
+    CreateSmartContract("CreateSmartContract"),
+    TriggerSmartContract("TriggerSmartContract");
 
     private String type;
+
     ContractType(String type) {
         this.type = type;
     }

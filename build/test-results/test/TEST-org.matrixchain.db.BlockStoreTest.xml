@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.matrixchain.db.BlockStoreTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2020-01-06T02:12:34" hostname="matrix" time="0.698">
+  <properties/>
+  <testcase name="delete" classname="org.matrixchain.db.BlockStoreTest" time="0.0"/>
+  <testcase name="get" classname="org.matrixchain.db.BlockStoreTest" time="0.0"/>
+  <testcase name="put" classname="org.matrixchain.db.BlockStoreTest" time="0.0"/>
+  <testcase name="get1" classname="org.matrixchain.db.BlockStoreTest" time="0.0"/>
+  <testcase name="block" classname="org.matrixchain.db.BlockStoreTest" time="0.697"/>
+  <testcase name="flush" classname="org.matrixchain.db.BlockStoreTest" time="0.0"/>
+  <testcase name="delete1" classname="org.matrixchain.db.BlockStoreTest" time="0.0"/>
+  <system-out><![CDATA[--------------------------------------------------------------------------
+10000
+value store: {"header":{"signature":"9355bd68bfc06aa03bcbe841f552b57f3d9940c19900724760d0b06b0af71bdf30250602ac5684b5093f5d23570ebe9a199c4d6d507ca5c904dcb30ca8ce85f501","row":{"difficulty":55642216,"coinbase":"0xd92230002a341bdcc1088a976d608c6e35834993","extraData":"supportconstant","miningRewards":1576464924176,"parentHash":"0000000000ec7e29bf89a2b6fa71dd0e8185ac778e7a7e1fc1817a76bd7db5b4","nonce":12647813,"height":10000,"timestamp":1000}},"transactions":[{"signature":"1e7f087158da75eab140f2f502c025a087e3abed3c7598ba1efa33718326e7853787a55bfce9dc0ec3013047107eedf903299cb14d6a2c49872f554571fa2fe700","contract":{"gasLimit":100000,"amount":100000000000,"extraData":"dfdasdfdsd","receiveAddress":"0xd92230002a341bdcc1088a976d608c6e35834993","type":"Transfer","nonce":123456789,"gasPrice":10000,"timestamp":1578276754516},"ownerAddress":"0xf6b1ed20174eb4de7202a34bf1975935c1a50432","hash":"0x81c94755390500a06741eb49019e09e66984096686c4df5e5eef3d525c716622"}],"hash":"6d8f33500b4600a6806596c99c2f1666a7a2d4e8bed1e344e7f22b3203f3b180"}
+--------------------------------------------------------------------------
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

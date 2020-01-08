@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.matrixchain.core.AccountUtilTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2020-01-06T02:12:34" hostname="matrix" time="0.058">
+  <properties/>
+  <testcase name="getECDSASignature" classname="org.matrixchain.core.AccountUtilTest" time="0.0"/>
+  <testcase name="equals" classname="org.matrixchain.core.AccountUtilTest" time="0.0"/>
+  <testcase name="account" classname="org.matrixchain.core.AccountUtilTest" time="0.057"/>
+  <testcase name="signBlockHeader" classname="org.matrixchain.core.AccountUtilTest" time="0.0"/>
+  <testcase name="getAddress" classname="org.matrixchain.core.AccountUtilTest" time="0.0"/>
+  <testcase name="signTransaction" classname="org.matrixchain.core.AccountUtilTest" time="0.0"/>
+  <testcase name="createAccount" classname="org.matrixchain.core.AccountUtilTest" time="0.0"/>
+  <testcase name="getAddressBytes" classname="org.matrixchain.core.AccountUtilTest" time="0.0"/>
+  <system-out><![CDATA[0xf6b1ed20174eb4de7202a34bf1975935c1a50432
+0xb16b18e728e8adb082617763434da17a07c0bbe8
+false
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

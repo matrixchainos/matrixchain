@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.matrixchain.db.SmartContractStoreTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2020-01-06T02:12:36" hostname="matrix" time="0.001">
+  <properties/>
+  <testcase name="delete" classname="org.matrixchain.db.SmartContractStoreTest" time="0.001"/>
+  <testcase name="get" classname="org.matrixchain.db.SmartContractStoreTest" time="0.0"/>
+  <testcase name="put" classname="org.matrixchain.db.SmartContractStoreTest" time="0.0"/>
+  <testcase name="flush" classname="org.matrixchain.db.SmartContractStoreTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

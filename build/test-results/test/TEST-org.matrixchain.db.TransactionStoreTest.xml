@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.matrixchain.db.TransactionStoreTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2020-01-06T02:12:35" hostname="matrix" time="0.398">
+  <properties/>
+  <testcase name="delete" classname="org.matrixchain.db.TransactionStoreTest" time="0.0"/>
+  <testcase name="get" classname="org.matrixchain.db.TransactionStoreTest" time="0.0"/>
+  <testcase name="put" classname="org.matrixchain.db.TransactionStoreTest" time="0.0"/>
+  <testcase name="flush" classname="org.matrixchain.db.TransactionStoreTest" time="0.0"/>
+  <testcase name="transaction" classname="org.matrixchain.db.TransactionStoreTest" time="0.397"/>
+  <system-out><![CDATA[Transaction{contract=Transfer{receiveAddress='0xd92230002a341bdcc1088a976d608c6e35834993', amount=100000000000, type=Transfer, gasPrice=10000, gasLimit=100000, nonce=123456789, timestamp=1578276755781, extraData='dfdasdfdsd'}, ownerAddress='0xf6b1ed20174eb4de7202a34bf1975935c1a50432', sign='0162687c7747b2a023b62ad3bfbd03c0c866ab38de3a7aa7843cedc2a88a5a7c542500035daa9a1a51cd14ca4010c23376885fc8d26a3250bf7873a98bf16b4800', hash='0xb31d814dec99ca055c2bdcb7c675b6fde300c27b6395e194bcffebe8b83fce2a', transactionReceipt=null}
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

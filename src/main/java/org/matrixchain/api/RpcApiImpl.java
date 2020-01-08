@@ -16,22 +16,32 @@ public class RpcApiImpl implements RpcApi {
     private MatrixChainService matrixChainService;
 
     @Override
-    public BlockHeader getBlockHeader() {
-        return matrixChainService.getBlockHeader();
+    public BlockHeader getBlockHeaderByHeight(long height) {
+        return matrixChainService.getBlockHeaderByHeight(height);
     }
 
     @Override
-    public Transaction getTransaction() {
-        return matrixChainService.getTransaction();
+    public Transaction getTransactionByHash(String hash) {
+        return matrixChainService.getTransactionByHash(hash);
     }
 
     @Override
-    public List<Transaction> getTransactionList() {
-        return matrixChainService.getTransactionList();
+    public List<Transaction> getTransactionListByBlockHeight(long height) {
+        return matrixChainService.getTransactionListByBlockHeight(height);
     }
 
     @Override
-    public Block getBlock() {
-        return matrixChainService.getBlock();
+    public List<Transaction> getTransactionListByBlockHash(String hash) {
+        return matrixChainService.getTransactionListByBlockHash(hash);
+    }
+
+    @Override
+    public Block getBlock(long height) {
+        return matrixChainService.getBlockByHeight(height);
+    }
+
+    @Override
+    public Block getBlock(String hash) {
+        return matrixChainService.getBlockByHash(hash);
     }
 }

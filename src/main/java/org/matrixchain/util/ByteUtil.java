@@ -202,7 +202,7 @@ public class ByteUtil {
      * but allows for <code>null</code>
      *
      * @param data - byte-array to convert to a hex-string
-     * @return hex representation of the data.<br>
+     * @return hex representation of the extraData.<br>
      *      Returns an empty String if the input is <code>null</code>
      *
      * @see Hex#toHexString
@@ -262,7 +262,7 @@ public class ByteUtil {
      *
      * Example. [ 1, 2, 3, 4, 5 ] becomes '\x11\x23\x45'
      *
-     * @param nibbles - getting byte of data [ 04 ] and turning
+     * @param nibbles - getting byte of extraData [ 04 ] and turning
      *                  it to a '\x04' representation
      * @return pretty string of nibbles
      */
@@ -415,8 +415,8 @@ public class ByteUtil {
     }
 
 
-//    public static ByteArrayWrapper wrap(byte[] data) {
-//        return new ByteArrayWrapper(data);
+//    public static ByteArrayWrapper wrap(byte[] extraData) {
+//        return new ByteArrayWrapper(extraData);
 //    }
 
     public static byte[] setBit(byte[] data, int pos, int val) {
@@ -623,7 +623,7 @@ public class ByteUtil {
     }
 
     /**
-     * Converts string hex representation to data bytes
+     * Converts string hex representation to extraData bytes
      * Accepts following hex:
      *  - with or without 0x prefix
      *  - with no leading 0, like 0xabc -> 0x0abc

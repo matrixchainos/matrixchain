@@ -1,7 +1,9 @@
 package org.matrixchain.db;
 
 import org.matrixchain.core.Transaction;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TransactionStore {
 
     private Repository repository;

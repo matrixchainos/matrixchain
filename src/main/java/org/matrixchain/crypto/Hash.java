@@ -62,7 +62,7 @@ public class Hash {
   /**
    * Keccak-256 hash function.
    *
-   * @param hexInput hex encoded input data with optional 0x prefix
+   * @param hexInput hex encoded input extraData with optional 0x prefix
    * @return hash value as hex encoded string
    */
   public static String sha3(String hexInput) {
@@ -87,9 +87,9 @@ public class Hash {
   }
 
   /**
-   * hashing chunk of the data
+   * hashing chunk of the extraData
    *
-   * @param input - data for hash
+   * @param input - extraData for hash
    * @param start - start of hashing chunk
    * @param length - length of hashing chunk
    * @return - keccak hash of the chunk
@@ -123,8 +123,8 @@ public class Hash {
   /**
    * Calculates RIGTMOST160(SHA3(input)). This is used in address calculations. *
    *
-   * @param input - data
-   * @return - add_pre_fix + 20 right bytes of the hash keccak of the data
+   * @param input - extraData
+   * @return - add_pre_fix + 20 right bytes of the hash keccak of the extraData
    */
   public static byte[] sha3omit12(byte[] input) {
     byte[] hash = sha3(input);

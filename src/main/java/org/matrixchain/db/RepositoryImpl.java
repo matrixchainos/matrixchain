@@ -1,11 +1,17 @@
 package org.matrixchain.db;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.lang.reflect.Type;
+import java.io.IOException;
 
 public class RepositoryImpl implements Repository{
+
+    private final static ObjectMapper mapper;
+
+    static {
+        mapper = new ObjectMapper();
+    }
 
     public DBSourceImpl dbSource;
 
@@ -15,18 +21,28 @@ public class RepositoryImpl implements Repository{
     }
 
     private byte[] serialize(Object o) {
-        return JSONObject.toJSONBytes(o, SerializerFeature.WriteClassName);
+        try {
+            return mapper.writeValueAsBytes(o);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    private Object deserialize(byte[] o, Type type) {
-        return JSONObject.parseObject(o, type);
+    private Object deserialize(byte[] o, Class type) {
+        try {
+            return mapper.readValue(o, type);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public void put(Object key, Object val) {
         dbSource.put(serialize(key), serialize(val));
     }
 
-    public Object get(Object key, Type type) {
+    public Object get(Object key, Class type) {
         byte[] value = dbSource.get(serialize(key));
         return deserialize(value, type);
     }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.matrixchain.api.JsonRpcApiServerTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2020-01-06T02:12:34" hostname="matrix" time="0.111">
+  <properties/>
+  <testcase name="init" classname="org.matrixchain.api.JsonRpcApiServerTest" time="0.111"/>
+  <testcase name="stop" classname="org.matrixchain.api.JsonRpcApiServerTest" time="0.0"/>
+  <testcase name="start" classname="org.matrixchain.api.JsonRpcApiServerTest" time="0.0"/>
+  <system-out><![CDATA[init rpc api server.
+started rpc api server.
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

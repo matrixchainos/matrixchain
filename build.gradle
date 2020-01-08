@@ -24,8 +24,11 @@ dependencies {
     compile group: 'org.eclipse.jetty', name: 'jetty-servlet', version: '9.4.11.v20180605'
     // https://mvnrepository.com/artifact/io.swagger/swagger-core
     compile group: 'io.swagger', name: 'swagger-core', version: '2.0.0-rc0'
+    // https://mvnrepository.com/artifact/io.swagger/swagger-annotations
+    compile group: 'io.swagger', name: 'swagger-annotations', version: '2.0.0-rc0'
 
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    compile "ch.qos.logback:logback-classic:1.1.7"
 
     compile group: 'com.alibaba', name: 'fastjson', version: '1.2.44'
 

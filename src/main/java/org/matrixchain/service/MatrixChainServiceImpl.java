@@ -1,74 +1,56 @@
 package org.matrixchain.service;
 
 import org.matrixchain.core.*;
-import org.matrixchain.core.Account;
+import org.matrixchain.db.BlockHeaderStore;
+import org.matrixchain.db.BlockStore;
+import org.matrixchain.db.TransactionStore;
+import org.matrixchain.util.AccountUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
 public class MatrixChainServiceImpl implements MatrixChainService {
 
-    private final static Account account;
+    private final static AccountUtil accountUtil;
+    @Autowired
+    private TransactionStore transactionStore;
+    @Autowired
+    private BlockHeaderStore blockHeaderStore;
+    @Autowired
+    private BlockStore blockStore;
 
     static {
-        account = Account.create("8b71752f9a06a5a3249d7900c91b833acf5d51b68ed3a2ce23a0cb142b72393b");
+        accountUtil = AccountUtil.create("8b71752f9a06a5a3249d7900c91b833acf5d51b68ed3a2ce23a0cb142b72393b");
     }
 
-    public BlockHeader getBlockHeader() {
-        BlockHeader header = new BlockHeader("0000000000ec7e29bf89a2b6fa71dd0e8185ac778e7a7e1fc1817a76bd7db5b4",
-                account.getAddress(),
-                55642216L,
-                1000L,
-                10000L,
-                1576464924176L,
-                "support matrix",
-                12647813L);
-        account.signBlockHeader(header);
-        return header;
+    public BlockHeader getBlockHeaderByHeight(long height) {
+        return blockHeaderStore.get(height);
     }
 
-    public Transaction getTransaction() {
+    public Transaction getTransactionByHash(String hash) {
 
-        Transfer transfer = Transfer.create(Account.ZERO_ADDRESS,
-                10000L,
-                "develop reward.");
-
-        Transaction transaction = new Transaction(account.getAddress(), transfer);
-
-        account.signTransaction(transaction);
-
-        return transaction;
+        return transactionStore.get(hash);
     }
 
-    public List<Transaction> getTransactionList() {
-        List<Transaction> transactionList = new ArrayList<>();
-
-        Transfer transfer = Transfer.create(Account.ZERO_ADDRESS,
-                10000L,
-                "develop reward.");
-
-        Transaction transaction = new Transaction(account.getAddress(), transfer);
-
-        account.signTransaction(transaction);
-
-        transactionList.add(transaction);
-        transactionList.add(getTransaction());
-        return transactionList;
+    public List<Transaction> getTransactionListByBlockHash(String hash) {
+        Block block = getBlockByHash(hash);
+        return block.getTransactions();
     }
 
-    public Block getBlock() {
-        List<Transaction> transactionList = getTransactionList();
+    public List<Transaction> getTransactionListByBlockHeight(long height) {
+        Block block = getBlockByHeight(height);
+        return block.getTransactions();
+    }
 
-        BlockHeader blockHeader = getBlockHeader();
-        Block block = new Block(
-                blockHeader,
-                transactionList
-        );
-        block.setHash(block.generateHash());
+    public Block getBlockByHash(String hash) {
+        return blockStore.get(hash);
+    }
 
-        return block;
+    public Block getBlockByHeight(long height) {
+        String hash = blockHeaderStore.get(height).getHash();
+        return getBlockByHash(hash);
     }
 
 }

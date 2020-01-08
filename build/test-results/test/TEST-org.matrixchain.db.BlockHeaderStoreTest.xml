@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.matrixchain.db.BlockHeaderStoreTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2020-01-06T02:12:35" hostname="matrix" time="0.541">
+  <properties/>
+  <testcase name="delete" classname="org.matrixchain.db.BlockHeaderStoreTest" time="0.002"/>
+  <testcase name="header" classname="org.matrixchain.db.BlockHeaderStoreTest" time="0.528"/>
+  <testcase name="get" classname="org.matrixchain.db.BlockHeaderStoreTest" time="0.004"/>
+  <testcase name="put" classname="org.matrixchain.db.BlockHeaderStoreTest" time="0.003"/>
+  <testcase name="flush" classname="org.matrixchain.db.BlockHeaderStoreTest" time="0.003"/>
+  <system-out><![CDATA[10fa4a62c4dfffff
+BlockHeader{sign='a61ae56238a60e9b083644ef6c5252c0f71584f03c8d28b37eb873590aac19c331e594a4e93b471ccd78dc9b08ebbaa504baafff594247c6ad4c7eb4078db91f01', row=Contract{parentHash='0000000000ec7e29bf89a2b6fa71dd0e8185ac778e7a7e1fc1817a76bd7db5b4', coinbase='0xd92230002a341bdcc1088a976d608c6e35834993', difficulty=1001, timestamp=1576464924176, height=1, miningRewards=100000000, extraData='support Constant', nonce=12647813}}
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

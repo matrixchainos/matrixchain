@@ -1,8 +1,5 @@
 package org.matrixchain.core;
 
-import com.alibaba.fastjson.annotation.JSONType;
-
-@JSONType(typeName = "transfer")
 public class Transfer extends Contract {
 
     private final static long DEFAULT_GAS_PRICE = 10000L;
@@ -13,28 +10,29 @@ public class Transfer extends Contract {
     private long amount;
 
     private Transfer() {
+        super(ContractType.Transfer, DEFAULT_GAS_PRICE, DEFAULT_GAS_LIMIT, DEFAULT_NONCE, null);
     }
 
-    private Transfer(String receiveAddress, long amount, long gasPrice, long gasLimit, long nonce, String data) {
-        super(ContractType.TRANSFER, gasPrice, gasLimit, nonce, data);
+    private Transfer(String receiveAddress, long amount, long gasPrice, long gasLimit, long nonce, String extraData) {
+        super(ContractType.Transfer, gasPrice, gasLimit, nonce, extraData);
         this.amount = amount;
         this.receiveAddress = receiveAddress;
     }
 
-    public static Transfer create(long amount, String receiveAddress) {
+    public static Transfer create(String receiveAddress, long amount) {
         return create(receiveAddress, amount, null);
     }
 
-    public static Transfer create(String receiveAddress, long amount, String data) {
-        return create(receiveAddress, amount, DEFAULT_GAS_PRICE, DEFAULT_GAS_LIMIT, DEFAULT_NONCE, data);
+    public static Transfer create(String receiveAddress, long amount, String extraData) {
+        return create(receiveAddress, amount, DEFAULT_GAS_PRICE, DEFAULT_GAS_LIMIT, DEFAULT_NONCE, extraData);
     }
 
     public static Transfer create(String receiveAddress, long amount, long gasPrice, long gasLimit, long nonce) {
         return create(receiveAddress, amount, gasPrice, gasLimit, nonce, null);
     }
 
-    public static Transfer create(String receiveAddress, long amount, long gasPrice, long gasLimit, long nonce, String data) {
-        return new Transfer(receiveAddress, amount, gasPrice, gasLimit, nonce, data);
+    public static Transfer create(String receiveAddress, long amount, long gasPrice, long gasLimit, long nonce, String extraData) {
+        return new Transfer(receiveAddress, amount, gasPrice, gasLimit, nonce, extraData);
     }
 
     public String getReceiveAddress() {
@@ -63,7 +61,7 @@ public class Transfer extends Contract {
                 ", gasLimit=" + gasLimit +
                 ", nonce=" + nonce +
                 ", timestamp=" + timestamp +
-                ", data='" + data + '\'' +
+                ", extraData='" + extraData + '\'' +
                 '}';
     }
 }

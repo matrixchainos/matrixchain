@@ -7,8 +7,10 @@ import org.matrixchain.core.Transaction;
 import java.util.List;
 
 public interface MatrixChainService {
-    BlockHeader getBlockHeader();
-    Transaction getTransaction();
-    List<Transaction> getTransactionList();
-    Block getBlock();
+    BlockHeader getBlockHeaderByHeight(long height);
+    Transaction getTransactionByHash(String hash);
+    List<Transaction> getTransactionListByBlockHash(String hash);
+    List<Transaction> getTransactionListByBlockHeight(long height);
+    Block getBlockByHeight(long hash);
+    Block getBlockByHash(String hash);
 }

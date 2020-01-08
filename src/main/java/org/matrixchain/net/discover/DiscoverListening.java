@@ -1,50 +1,72 @@
 package org.matrixchain.net.discover;
 
+import io.netty.bootstrap.Bootstrap;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelPipeline;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.SocketChannel;
+import io.netty.channel.socket.nio.NioDatagramChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.string.StringDecoder;
+import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.logging.LoggingHandler;
 import org.matrixchain.facade.Server;
-import org.matrixchain.net.discover.handler.DiscoverChannelInitializer;
+import org.matrixchain.net.discover.handler.DiscoverHandler;
+import org.matrixchain.net.node.NodeManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.net.InetSocketAddress;
 
 @Component
 public class DiscoverListening implements Server {
 
-    private EventLoopGroup worker;
+    private EventLoopGroup group;
     private ChannelFuture channelFuture;
+    private String host;
     private int port;
+    @Autowired
+    private NodeManager nodeManager;
 
     @Override
     public void init() {
-        this.port = 50521;
+        this.port = 5021;
+        this.host = "192.168.130.9";
         System.out.println("init discover listening.");
     }
 
     @Override
     public void start() {
-        DiscoveryExecutor discoveryExecutor = new DiscoveryExecutor();
-        discoveryExecutor.rurn();
+        DiscoveryExecutor discoveryExecutor = new DiscoveryExecutor(nodeManager);
+        discoveryExecutor.run();
 
         new Thread(() -> {
             try {
-                worker = new NioEventLoopGroup();
+                group = new NioEventLoopGroup();
 
-                ServerBootstrap bootstrap = new ServerBootstrap();
-                bootstrap.group(worker)
-                        .channel(NioServerSocketChannel.class)
-                        .handler(new LoggingHandler())
-                        .childHandler(new DiscoverChannelInitializer());
-
-                channelFuture = bootstrap.bind(port).sync();
+                Bootstrap bootstrap = new Bootstrap();
+                bootstrap.group(group)
+                        .channel(NioDatagramChannel.class)
+                        .handler(new ChannelInitializer<NioDatagramChannel>() {
+                            @Override
+                            protected void initChannel(NioDatagramChannel ch) throws Exception {
+                                ChannelPipeline pipeline = ch.pipeline();
+                                pipeline.addLast(new PacketDecoder());
+                                DiscoverHandler discoverHandler = new DiscoverHandler(ch, nodeManager);
+                                nodeManager.addMessageSender(discoverHandler);
+                                pipeline.addLast(discoverHandler);
+                            }
+                        });
+                channelFuture = bootstrap.bind(host, port).sync();
 
                 channelFuture.channel().closeFuture().sync();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } finally {
-                worker.shutdownGracefully();
+                group.shutdownGracefully();
             }
         }).start();
         System.out.println("started discover listening.");
