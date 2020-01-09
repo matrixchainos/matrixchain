@@ -11,3 +11,8 @@ out/
 
 #
 ./matrixchain/
+
+#
+./logs/
+
+./build/

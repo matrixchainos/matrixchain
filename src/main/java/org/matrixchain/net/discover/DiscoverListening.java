@@ -53,11 +53,10 @@ public class DiscoverListening implements Server {
                         .handler(new ChannelInitializer<NioDatagramChannel>() {
                             @Override
                             protected void initChannel(NioDatagramChannel ch) throws Exception {
-                                ChannelPipeline pipeline = ch.pipeline();
-                                pipeline.addLast(new PacketDecoder());
+                                ch.pipeline().addLast(new PacketDecoder());
                                 DiscoverHandler discoverHandler = new DiscoverHandler(ch, nodeManager);
                                 nodeManager.addMessageSender(discoverHandler);
-                                pipeline.addLast(discoverHandler);
+                                ch.pipeline().addLast(discoverHandler);
                             }
                         });
                 channelFuture = bootstrap.bind(host, port).sync();

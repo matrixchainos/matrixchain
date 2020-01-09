@@ -1,5 +1,7 @@
 package org.matrixchain.net.discover;
 
+import org.matrixchain.net.discover.message.Message;
+
 import java.net.InetSocketAddress;
 
 public class DiscoveryEvent {

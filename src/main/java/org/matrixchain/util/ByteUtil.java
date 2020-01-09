@@ -700,6 +700,20 @@ public class ByteUtil {
         return bytes;
     }
 
+    public static byte[] parseByteList(byte[] ... input) {
+        int len = 0;
+        for (byte[] element : input){
+            len += element.length;
+        }
+        int length = 0;
+        byte[] bytes = new byte[len];
+        for (byte[] element: input){
+            System.arraycopy(element, 0, bytes, length, element.length);
+            length += element.length;
+        }
+        return bytes;
+    }
+
     /**
      * Parses 32-bytes word from given input.
      * Uses {@link #parseBytes(byte[], int, int)} method,
