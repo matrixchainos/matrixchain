@@ -2,6 +2,7 @@ package org.matrixchain.facade;
 
 import org.matrixchain.api.http.HttpApiServer;
 import org.matrixchain.api.JsonRpcApiServer;
+import org.matrixchain.config.SystemProperties;
 import org.matrixchain.net.discover.DiscoverListening;
 import org.matrixchain.net.peer.PeerClient;
 import org.matrixchain.net.peer.PeerServer;
@@ -25,7 +26,8 @@ public class MatrixChainImpl implements MatrixChain {
     private PeerClient peerClient;
 
     @Override
-    public void init() {
+    public void init(final SystemProperties config) {
+
         this.container.addService(jsonRpcApiServer);
         this.container.addService(httpApiServer);
         this.container.addService(discoverListening);

@@ -7,19 +7,46 @@ import org.spongycastle.util.encoders.Hex;
 import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Arrays;
+
+import static org.matrixchain.crypto.Hash.sha3;
 
 public class Node implements Serializable {
     private static final long serialVersionUID = -4267600517925770636L;
 
-    private byte[] id;
+    private String id;
     private String host;
     private int port;
 
-    public Node(byte[] id, String host, int port) {
+    private boolean isFakeNodeId = false;
+
+    public Node(String id, String host, int port) {
         this.id = id;
         this.host = host;
         this.port = port;
+    }
+
+    public boolean isDiscoveryNode() {
+        return isFakeNodeId;
+    }
+
+    public void isDiscoveryNode(boolean isFakeNodeId) {
+        this.isFakeNodeId = isFakeNodeId;
+    }
+
+    public static Node instanceOf(String addressOrEnode) {
+        try {
+            URI uri = new URI(addressOrEnode);
+            if (uri.getScheme().equals("enode")) {
+                return new Node(addressOrEnode);
+            }
+        } catch (URISyntaxException e) {
+            // continue
+        }
+
+        final ECKey generatedNodeKey = ECKey.fromPrivate(sha3(addressOrEnode.getBytes()));
+        final String generatedNodeId = Hex.toHexString(generatedNodeKey.getNodeId());
+        final Node node = new Node("enode://" + generatedNodeId + "@" + addressOrEnode);
+        return node;
     }
 
     public Node(String enodeURL) {
@@ -28,7 +55,7 @@ public class Node implements Serializable {
             if (!uri.getScheme().equals("enode")) {
                 throw new RuntimeException("expecting URL in the format enode://PUBKEY@HOST:PORT");
             }
-            this.id = Hex.decode(uri.getUserInfo());
+            this.id = uri.getUserInfo();
             this.host = uri.getHost();
             this.port = uri.getPort();
         } catch (URISyntaxException e) {
@@ -56,10 +83,10 @@ public class Node implements Serializable {
 
         this.port = ByteUtil.byteArrayToInt(port);
         this.host = ByteUtil.bytesToIp(host);
-        this.id = ECKey.fromNodeId(id).getNodeId();
+        this.id = Hex.toHexString(ECKey.fromNodeId(Hex.decode(id)).getNodeId());
     }
 
-    public byte[] getId() {
+    public String getId() {
         return id;
     }
 
@@ -74,7 +101,7 @@ public class Node implements Serializable {
     @Override
     public String toString() {
         return "Node{" +
-                "id=" + Arrays.toString(id) +
+                "id=" + id +
                 ", host='" + host + '\'' +
                 ", port=" + port +
                 '}';

@@ -13,16 +13,23 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.logging.LoggingHandler;
+import org.matrixchain.config.SystemProperties;
 import org.matrixchain.facade.Server;
 import org.matrixchain.net.discover.handler.DiscoverHandler;
+import org.matrixchain.net.node.Node;
 import org.matrixchain.net.node.NodeManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class DiscoverListening implements Server {
+    private final static Logger logger = LoggerFactory.getLogger("discover");
 
     private EventLoopGroup group;
     private ChannelFuture channelFuture;
@@ -31,10 +38,19 @@ public class DiscoverListening implements Server {
     @Autowired
     private NodeManager nodeManager;
 
+    private SystemProperties config;
+
+    @Autowired
+    public DiscoverListening(final SystemProperties config) {
+        this.config = config;
+        logger.info(config.bootIpList().toString());
+    }
+
     @Override
     public void init() {
-        this.port = 5021;
-        this.host = "192.168.130.9";
+        this.port = config.getPeerListenPort();
+        this.host = config.externalIp();
+        System.out.println("------------------------------" + port + host);
         System.out.println("init discover listening.");
     }
 

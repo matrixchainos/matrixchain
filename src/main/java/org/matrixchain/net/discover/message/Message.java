@@ -3,6 +3,7 @@ package org.matrixchain.net.discover.message;
 import org.matrixchain.crypto.ECKey;
 import org.matrixchain.util.FastByteComparisons;
 import org.spongycastle.util.BigIntegers;
+import org.spongycastle.util.encoders.Hex;
 
 import java.security.SignatureException;
 
@@ -112,8 +113,8 @@ public abstract class Message {
         return outKey;
     }
 
-    public byte[] getNodeId() {
-        return getKey().getNodeId();
+    public String getNodeId() {
+        return Hex.toHexString(getKey().getNodeId());
     }
 
     public byte[] getPacket() {

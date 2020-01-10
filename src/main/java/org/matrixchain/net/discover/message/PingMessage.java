@@ -12,6 +12,10 @@ public class PingMessage extends Message {
     private long expires;
     private int version;
 
+    public static PingMessage create(Node fromNode, Node toNode, ECKey privKey) {
+        return create(fromNode, toNode, privKey, 4);
+    }
+
     public static PingMessage create(Node toNode, Node fromNode, ECKey ecKey, int version) {
         long expiration = 90 * 60 + System.currentTimeMillis() / 1000;
 

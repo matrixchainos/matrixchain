@@ -27,7 +27,9 @@ public class DiscoverHandler extends SimpleChannelInboundHandler<DiscoveryEvent>
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        logger.info("channel active - " + ctx.channel().remoteAddress());
+        // udp no connection
+        logger.info("channel active - ");
+        nodeManager.channelActivated();
     }
 
     @Override
