@@ -7,6 +7,7 @@ import org.spongycastle.util.encoders.Hex;
 import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 
 import static org.matrixchain.crypto.Hash.sha3;
 
@@ -64,12 +65,14 @@ public class Node implements Serializable {
     }
 
     public byte[] toBytes(){
+        byte[] id = ByteUtil.hexStringToBytes(this.id);
         byte[] host = ByteUtil.hostToBytes(this.host);
         byte[] port = ByteUtil.intToBytes(this.port);
 
-        byte[] bytes = new byte[4 + 4];
-        System.arraycopy(host, 0, bytes, 0, 4);
-        System.arraycopy(port, 0, bytes, 4, 4);
+        byte[] bytes = new byte[64 + 4 + 4];
+        System.arraycopy(id, 0, bytes, 0, 64);
+        System.arraycopy(host, 0, bytes, 64, 4);
+        System.arraycopy(port, 0, bytes, 68, 4);
         return bytes;
     }
 
@@ -83,7 +86,7 @@ public class Node implements Serializable {
 
         this.port = ByteUtil.byteArrayToInt(port);
         this.host = ByteUtil.bytesToIp(host);
-        this.id = Hex.toHexString(ECKey.fromNodeId(Hex.decode(id)).getNodeId());
+        this.id = Hex.toHexString(id);
     }
 
     public String getId() {
@@ -105,5 +108,26 @@ public class Node implements Serializable {
                 ", host='" + host + '\'' +
                 ", port=" + port +
                 '}';
+    }
+
+    @Override
+    public int hashCode() {
+        return this.toString().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) {
+            return false;
+        }
+
+        if (o == this) {
+            return true;
+        }
+
+        if (o instanceof Node) {
+            return ((Node) o).getId().equals(this.getId());
+        }
+        return false;
     }
 }

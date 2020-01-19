@@ -38,12 +38,12 @@ public class DiscoverTask implements Runnable {
     public void discover(String nodeId, int round, List<Node> preNodeList) {
         try {
             if (round == KademliaOptions.MAX_STEPS) {
-                logger.info("discover, round {}", round);
+//                logger.info("discover, round {}", round);
                 return;
             }
 
             List<Node> nodeList = nodeManager.nodeTable.getClosestNodes(nodeId);
-            logger.info("discover, nodeList {}", nodeList.toString());
+//            logger.info("discover, nodeList {}", nodeList.toString());
             List<Node> tryNodeList = new ArrayList<>();
 
             for (Node node : nodeList) {
@@ -58,7 +58,7 @@ public class DiscoverTask implements Runnable {
                 }
             }
             if (tryNodeList.isEmpty()) {
-                logger.info("discover, {}", preNodeList.toString());
+//                logger.info("discover tryNodeList, {}", preNodeList.toString());
                 return;
             }
 

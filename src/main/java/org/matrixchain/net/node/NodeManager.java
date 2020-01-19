@@ -3,7 +3,9 @@ package org.matrixchain.net.node;
 import org.matrixchain.config.SystemProperties;
 import org.matrixchain.crypto.ECKey;
 import org.matrixchain.net.discover.DiscoveryEvent;
+import org.matrixchain.net.discover.message.FindNodeMessage;
 import org.matrixchain.net.discover.message.Message;
+import org.matrixchain.net.discover.message.NeighboursMessage;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -73,14 +75,15 @@ public class NodeManager {
 
         if (handler == null) {
             handler = new NodeHandler(node, this);
+            logger.info("handler is null, create handler {}", handler.getNode().toString());
             nodeHandlerMap.put(key, handler);
             if (!node.isDiscoveryNode() && !node.getId().equals(homeNode.getId())) {
 //                ethereumListener.onNodeDiscovered(ret.getNode());
             }
         } else if (!node.isDiscoveryNode() && !node.getId().equals(homeNode.getId())) {
+            logger.info("handler is not null, {}", handler.getNode().toString());
 //            ethereumListener.onNodeDiscovered(ret.getNode());
         }
-        logger.info("get Node Handler, {}", handler.toString());
         return handler;
     }
 
@@ -102,15 +105,23 @@ public class NodeManager {
         NodeHandler handler = getNodeHandler(node);
 
         byte type = message.getType();
+        logger.info("----------------------type: {}", type);
         switch (type) {
             case 1:
+                logger.info("----------------------1");
                 handler.handlerPing();
                 break;
             case 2:
-                handler.handlerPing();
+                logger.info("----------------------2");
+                handler.handlerPong();
                 break;
             case 3:
-                handler.handlerPing();
+                logger.info("----------------------3");
+                handler.handlerFindNode((FindNodeMessage) message);
+                break;
+            case 4:
+                logger.info("----------------------4, {}", message.toString());
+                handler.handlerNeighbours((NeighboursMessage) message);
                 break;
         }
     }

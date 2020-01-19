@@ -50,7 +50,6 @@ public class DiscoverListening implements Server {
     public void init() {
         this.port = config.getPeerListenPort();
         this.host = config.externalIp();
-        System.out.println("------------------------------" + port + host);
         System.out.println("init discover listening.");
     }
 

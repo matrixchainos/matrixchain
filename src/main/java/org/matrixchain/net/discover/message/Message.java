@@ -44,8 +44,10 @@ public abstract class Message {
             message = new PingMessage();
         }else if (type[0] == 2){
             message = new PongMessage();
-        }else{
+        }else if (type[0] == 3){
             message = new FindNodeMessage();
+        }else{
+            message = new NeighboursMessage();
         }
         message.parse(data);
 

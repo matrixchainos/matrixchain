@@ -13,7 +13,7 @@ public class PongMessage extends Message {
         byte[] data = ByteUtil.parseByteList(expiresB);
 
         PongMessage pongMessage = new PongMessage();
-        pongMessage.encode((byte)3, data, ecKey);
+        pongMessage.encode((byte) 2, data, ecKey);
         pongMessage.expires = expiration;
 
         return pongMessage;

@@ -31,6 +31,7 @@ public class MatrixChainImpl implements MatrixChain {
         this.container.addService(jsonRpcApiServer);
         this.container.addService(httpApiServer);
         this.container.addService(discoverListening);
+
         this.container.addService(peerServer);
         this.container.addService(peerClient);
 
